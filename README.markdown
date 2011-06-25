@@ -3,7 +3,7 @@ PsPdfBundle
 
 This bundle integrates Symfony2 with [PHPPdf][1] library.
 
-Nowday documentation of [PHPPdf][1] library is only in Polish, be patient, documentation will be also in English. Library has not been completed yet, actually is in development stage as same as this bundle.
+Documentation of [PHPPdf][1] you can find on github (README file).
 
 Installation
 ------------
