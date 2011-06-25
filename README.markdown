@@ -8,34 +8,34 @@ Nowday documentation of [PHPPdf][1] library is only in Polish, be patient, docum
 Installation
 ------------
 
-1. Add this bundle and [PHPPdf][1] library to /vendor directory:
+  1. Add this bundle and [PHPPdf][1] library to /vendor directory:
 
-    git submodule add git://github.com/psliwa/PdfBundle.git vendor/bundles/Ps/PdfBundle
-    git submodule add git://github.com/psliwa/PHPPdf.git vendor/PHPPdf
+          git submodule add git://github.com/psliwa/PdfBundle.git vendor/bundles/Ps/PdfBundle
+          git submodule add git://github.com/psliwa/PHPPdf.git vendor/PHPPdf
 
-2. Register bundle and [PHPPdf][1] library in autoloader:
+  2. Register bundle and [PHPPdf][1] library in autoloader:
 
-    //app/autoload.php
-    $loader->registerNamespaces(array(
-        'Ps' => __DIR__.'/../vendor/bundles',
-        'PHPPdf' => __DIR__.'/../vendor/PHPPdf/lib',
-    ));
+          //app/autoload.php
+          $loader->registerNamespaces(array(
+              'Ps' => __DIR__.'/../vendor/bundles',
+              'PHPPdf' => __DIR__.'/../vendor/PHPPdf/lib',
+          ));
     
-    $loader->registerPrefixes(array(
-        'Zend_' => __DIR__.'/../vendor/PHPPdf/lib/vendor',
-    ));
+          $loader->registerPrefixes(array(
+              'Zend_' => __DIR__.'/../vendor/PHPPdf/lib/vendor',
+          ));
 
-3. Register bundle in AppKernel:
+  3. Register bundle in AppKernel:
 
-    //app/AppKernel.php
-    public function registerBundles()
-    {
-        return array(
-            // ..
-            new Ps\PdfBundle\PsPdfBundle(),
-            // ..
-        );
-    }
+          //app/AppKernel.php
+          public function registerBundles()
+          {
+              return array(
+                  // ..
+                  new Ps\PdfBundle\PsPdfBundle(),
+                  // ..
+              );
+          }
 
 Example
 -------
