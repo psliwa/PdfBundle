@@ -1,5 +1,9 @@
-_pdf_using_facade_directly:
+_pdf_index:
   pattern: /
+  defaults: { _controller: PsPdfBundle:Example:index }
+
+_pdf_using_facade_directly:
+  pattern: /manually
   defaults: { _controller: PsPdfBundle:Example:usingFacadeDirectly }
   
 _pdf_using_automatic_format_detection:

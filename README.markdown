@@ -68,4 +68,9 @@ Example
     
 Bundle automatically detects pdf format (via _format) request and create pdf document from response.
 
+Pdf annotation has two optional properties:
+
+    * headers - associative array of specyfic headers
+    * stylesheet - pdf stylesheet filename - not implemented yet
+
 [1]: https://github.com/psliwa/PHPPdf

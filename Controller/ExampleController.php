@@ -19,6 +19,11 @@ use Ps\PdfBundle\Annotation\Pdf;
  */
 class ExampleController extends Controller
 {
+    public function indexAction()
+    {
+        return $this->render('PsPdfBundle:Example:index.html.twig');
+    }
+    
     public function usingFacadeDirectlyAction()
     {
         $facade = $this->get('ps_pdf.facade');
@@ -31,9 +36,11 @@ class ExampleController extends Controller
         
         return new Response($content, 200, array('content-type' => 'application/pdf'));
     }
-    
+
     /**
-     * @Pdf()
+     * Posible custom headers
+     * 
+     * @Pdf(headers={"Expires"="Sat, 1 Jan 2000 12:00:00 GMT"})
      */
     public function usingAutomaticFormatGuessingAction($name)
     {
