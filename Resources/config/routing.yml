@@ -1,0 +1,9 @@
+_pdf_using_facade_directly:
+  pattern: /
+  defaults: { _controller: PsPdfBundle:Example:usingFacadeDirectly }
+  
+_pdf_using_automatic_format_detection:
+  pattern: /auto/{name}.{_format}
+  defaults: { _controller: PsPdfBundle:Example:usingAutomaticFormatGuessing, _format: html }
+  requirements:
+    _format: html|pdf
