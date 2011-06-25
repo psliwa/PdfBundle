@@ -3,7 +3,7 @@
 /*
  * Copyright 2011 Piotr Śliwa <peter.pl7@gmail.com>
  *
- * License information is LICENSE file.
+ * License information is in LICENSE file
  */
 
 namespace Ps\PdfBundle\Reflection;
