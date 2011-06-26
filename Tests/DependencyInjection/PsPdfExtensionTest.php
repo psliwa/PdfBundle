@@ -28,4 +28,23 @@ class PsPdfExtensionTest extends \PHPUnit_Framework_TestCase
         
         $this->assertInstanceOf('PHPPdf\Parser\Facade', $facade);
     }
+    
+    /**
+     * @test
+     */
+    public function setContainerParametersIfPassed()
+    {
+        $container = new ContainerBuilder();
+        $config = array(
+            array(
+                'glyph_file' => 'some file',
+                'enhancement_file' => 'some another file',
+            ),
+        );
+
+        $this->extension->load($config, $container);
+        
+        $this->assertEquals($config[0]['glyph_file'], $container->getParameter('ps_pdf.glyph_file'));
+        $this->assertEquals($config[0]['enhancement_file'], $container->getParameter('ps_pdf.enhancement_file'));
+    }
 }

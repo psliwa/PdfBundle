@@ -3,6 +3,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+	<parameters>
+		<parameter key="ps_pdf.glyph_file">null</parameter>
+		<parameter key="ps_pdf.enhancement_file">null</parameter>
+	</parameters>
+
     <services>
     	<service id="ps_pdf.facade" class="PHPPdf\Parser\Facade">
     		<argument id="ps_pdf.configuration.loader" type="service" />
@@ -10,6 +15,8 @@
 
     	<service id="ps_pdf.configuration.loader" class="PHPPdf\Configuration\DependencyInjection\LoaderImpl" public="false">
     		<argument type="service" id="service_container" />
+    		<argument>%ps_pdf.glyph_file%</argument>
+    		<argument>%ps_pdf.enhancement_file%</argument>
     	</service>
     	
     	<service id="ps_pdf.listener" class="Ps\PdfBundle\EventListener\PdfListener">
