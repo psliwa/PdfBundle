@@ -75,13 +75,7 @@ class PdfListener
         }
         
         $response = $event->getResponse();
-        
-        $headers = (array) $annotation->headers;
-        foreach($headers as $key => $value)
-        {
-            $response->headers->set($key, $value);
-        }
-        
+               
         $stylesheetContent = null;
         if($stylesheet = $annotation->stylesheet)
         {
@@ -90,6 +84,13 @@ class PdfListener
         
         $pdfFacade = $this->pdfFacade;
         $content = $pdfFacade->render($response->getContent(), $stylesheetContent);
+
+        $headers = (array) $annotation->headers;
+        $headers['content-length'] = strlen($content);
+        foreach($headers as $key => $value)
+        {
+            $response->headers->set($key, $value);
+        }
 
         $response->setContent($content);
     }
