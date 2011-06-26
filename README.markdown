@@ -37,6 +37,24 @@ Installation
               );
           }
 
+Configuration
+-------------
+
+All options are optional.
+
+    # app/config/config.yml
+    ps_pdf:
+        fonts_file: ~
+        enhancements_file: ~
+        cache:
+          type: ~
+          options: ~
+
+* fonts_file - path to file with fonts definitions, internal fonts.xml file from PHPPdf library is used by default
+* enhancements_file - path to file with complex attributes (enhancements) definitions, internal enhancements.xml file from PHPPdf library is used by default
+* cache.type - type of cache, supported are all backend cache from Zend_Cache component (for instance File, Apc, Memcached, Sqlite etc.). File engine is used by default.
+* cache.options - specyfic options for cache engine (for instance "cache_dir" for File engine). cache_dir by default is as same as kernel.cache_dir.
+
 Example
 -------
     // In controller

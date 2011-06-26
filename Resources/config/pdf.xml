@@ -4,19 +4,38 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
 	<parameters>
-		<parameter key="ps_pdf.glyph_file">null</parameter>
-		<parameter key="ps_pdf.enhancement_file">null</parameter>
+		<parameter key="ps_pdf.enhancements_file">null</parameter>
+		<parameter key="ps_pdf.fonts_file">null</parameter>
+		<parameter key="ps_pdf.cache.type">File</parameter>
+		<parameter key="ps_pdf.cache.options" type="collection">
+			<parameter key="cache_dir">%kernel.cache_dir%</parameter>
+		</parameter>
+		<parameter key="ps_pdf.use_cache_in_stylesheet">true</parameter>
 	</parameters>
 
     <services>
     	<service id="ps_pdf.facade" class="PHPPdf\Parser\Facade">
     		<argument id="ps_pdf.configuration.loader" type="service" />
+    		<call method="setUseCacheForStylesheetConstraint">
+    			<argument>%ps_pdf.use_cache_in_stylesheet%</argument>
+    		</call>
+    		<call method="setCache">
+    			<argument id="ps_pdf.cache" type="service" />
+    		</call>
+    	</service>
+    	
+    	<service id="ps_pdf.cache" class="PHPPdf\Cache\CacheImpl" public="false">
+    		<argument>%ps_pdf.cache.type%</argument>
+    		<argument>%ps_pdf.cache.options%</argument>
     	</service>
 
     	<service id="ps_pdf.configuration.loader" class="PHPPdf\Configuration\DependencyInjection\LoaderImpl" public="false">
     		<argument type="service" id="service_container" />
-    		<argument>%ps_pdf.glyph_file%</argument>
-    		<argument>%ps_pdf.enhancement_file%</argument>
+    		<argument>%ps_pdf.enhancements_file%</argument>
+    		<argument>%ps_pdf.fonts_file%</argument>
+    		<call method="setCache">
+    			<argument id="ps_pdf.cache" type="service" />
+    		</call>
     	</service>
     	
     	<service id="ps_pdf.listener" class="Ps\PdfBundle\EventListener\PdfListener">

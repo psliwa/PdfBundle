@@ -27,7 +27,7 @@ class PsPdfExtension extends Extension
         $config = $this->getConfig($config);
         
         $this->loadDefaults($container);
-        
+                
         $this->setConfigIntoContainer($container, $config);
     }
     
@@ -51,11 +51,21 @@ class PsPdfExtension extends Extension
     
     private function setConfigIntoContainer(ContainerBuilder $container, array $config)
     {
-        foreach(array('glyph_file', 'enhancement_file') as $name)
+        $this->setGenericConfig($container, $config, 'ps_pdf.%s', array('fonts_file', 'enhancements_file', 'use_cache_in_stylesheet'));
+
+        if(isset($config['cache']))
         {
-            if(isset($config[$name]))
+            $this->setGenericConfig($container, $config['cache'], 'ps_pdf.cache.%s', array('type', 'options'));
+        }
+    }
+    
+    private function setGenericConfig(ContainerBuilder $container, array $config, $format, array $options)
+    {
+        foreach($options as $name)
+        {
+            if(!empty($config[$name]))
             {
-                $container->setParameter(sprintf('ps_pdf.%s', $name), $config[$name]);
+                $container->setParameter(sprintf($format, $name), $config[$name]);
             }
         }
     }

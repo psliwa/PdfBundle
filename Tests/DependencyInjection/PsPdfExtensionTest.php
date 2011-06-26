@@ -20,6 +20,7 @@ class PsPdfExtensionTest extends \PHPUnit_Framework_TestCase
     public function insertFactoryObjectIntoContainer()
     {
         $container = new ContainerBuilder();
+        $container->setParameter('kernel.cache_dir', '/');
         
         $this->extension->load(array(), $container);
         
@@ -35,16 +36,27 @@ class PsPdfExtensionTest extends \PHPUnit_Framework_TestCase
     public function setContainerParametersIfPassed()
     {
         $container = new ContainerBuilder();
+        $container->setParameter('kernel.cache_dir', '/');
         $config = array(
             array(
-                'glyph_file' => 'some file',
-                'enhancement_file' => 'some another file',
+                'fonts_file' => 'some file',
+                'enhancements_file' => 'some another file',
+                'cache' => array(
+                    'type' => 'some type',
+                    'options' => array(
+                        'custom_option' => 'value',
+                    ),
+                ),
+                'use_cache_in_stylesheet' => true,
             ),
         );
 
         $this->extension->load($config, $container);
         
-        $this->assertEquals($config[0]['glyph_file'], $container->getParameter('ps_pdf.glyph_file'));
-        $this->assertEquals($config[0]['enhancement_file'], $container->getParameter('ps_pdf.enhancement_file'));
+        $this->assertEquals($config[0]['fonts_file'], $container->getParameter('ps_pdf.fonts_file'));
+        $this->assertEquals($config[0]['enhancements_file'], $container->getParameter('ps_pdf.enhancements_file'));
+        $this->assertEquals($config[0]['cache']['type'], $container->getParameter('ps_pdf.cache.type'));
+        $this->assertEquals($config[0]['cache']['options'], $container->getParameter('ps_pdf.cache.options'));
+        $this->assertEquals($config[0]['use_cache_in_stylesheet'], $container->getParameter('ps_pdf.use_cache_in_stylesheet'));
     }
 }
