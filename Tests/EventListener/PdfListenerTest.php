@@ -19,6 +19,7 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
     private $request;
     private $requestAttributes;
     private $reflactionFactory;
+    private $templatingEngine;
     
     public function setUp()
     {
@@ -26,6 +27,10 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
                                 ->disableOriginalConstructor()
                                 ->setMethods(array('render'))
                                 ->getMock();
+                                
+        $this->templatingEngine = $this->getMockBuilder('Symfony\Component\Templating\EngineInterface')
+                                       ->setMethods(array('render', 'supports', 'exists'))
+                                       ->getMock();
         
         $this->reflactionFactory = $this->getMockBuilder('Ps\PdfBundle\Reflection\Factory')
                                         ->setMethods(array('createMethod'))
@@ -34,7 +39,7 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
                                        ->setMethods(array('getMethodAnnotations', 'getMethodAnnotation', 'getClassAnnotations', 'getClassAnnotation', 'getPropertyAnnotations', 'getPropertyAnnotation'))
                                        ->getMock();
 
-        $this->listener = new PdfListener($this->pdfFacade, $this->annotationReader, $this->reflactionFactory);
+        $this->listener = new PdfListener($this->pdfFacade, $this->annotationReader, $this->reflactionFactory, $this->templatingEngine);
         
         $this->request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                               ->setMethods(array('get'))
@@ -148,6 +153,34 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
         $response = $event->getResponse();
         
         $this->assertEquals($contentStub, $response->getContent());
+    }
+    
+    /**
+     * @test
+     */
+    public function useStylesheetFromAnnotation()
+    {
+        $stylesheetPath = 'some path';
+        
+        $annotation = new Pdf(array('stylesheet' => $stylesheetPath));
+        $this->requestAttributes->expects($this->once())
+                                ->method('get')
+                                ->with('_pdf')
+                                ->will($this->returnValue($annotation));
+                                
+        $stylesheetContent = 'stylesheet content';
+        
+        $this->templatingEngine->expects($this->once())
+                               ->method('render')
+                               ->with($stylesheetPath)
+                               ->will($this->returnValue($stylesheetContent));
+        
+        $this->pdfFacade->expects($this->once())
+                        ->method('render')
+                        ->with($this->anything(), $stylesheetContent);
+        
+        $event = new FilterResponseEventStub($this->request, new Response());                        
+        $this->listener->onKernelResponse($event);
     }
     
     /**

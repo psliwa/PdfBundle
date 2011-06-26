@@ -8,6 +8,8 @@
 
 namespace Ps\PdfBundle\EventListener;
 
+use Symfony\Component\Templating\EngineInterface;
+
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,12 +29,14 @@ class PdfListener
     private $pdfFacade;
     private $annotationReader;
     private $reflectionFactory;
+    private $templatingEngine;
     
-    public function __construct(Facade $pdfFacade, Reader $annotationReader, Factory $reflectionFactory)
+    public function __construct(Facade $pdfFacade, Reader $annotationReader, Factory $reflectionFactory, EngineInterface $templatingEngine)
     {
         $this->pdfFacade = $pdfFacade;
         $this->annotationReader = $annotationReader;
         $this->reflectionFactory = $reflectionFactory;
+        $this->templatingEngine = $templatingEngine;
     }
     
     public function onKernelRequest(GetResponseEvent $event)
@@ -78,8 +82,14 @@ class PdfListener
             $response->headers->set($key, $value);
         }
         
-        $pdfFacade = $this->pdfFacade;       
-        $content = $pdfFacade->render($response->getContent());
+        $stylesheetContent = null;
+        if($stylesheet = $annotation->stylesheet)
+        {
+            $stylesheetContent = $this->templatingEngine->render($stylesheet);
+        }
+        
+        $pdfFacade = $this->pdfFacade;
+        $content = $pdfFacade->render($response->getContent(), $stylesheetContent);
 
         $response->setContent($content);
     }

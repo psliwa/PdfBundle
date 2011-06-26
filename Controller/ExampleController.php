@@ -38,9 +38,12 @@ class ExampleController extends Controller
     }
 
     /**
-     * Posible custom headers
+     * Possible custom headers and external stylesheet file
      * 
-     * @Pdf(headers={"Expires"="Sat, 1 Jan 2000 12:00:00 GMT"})
+     * @Pdf(
+     * 	headers={"Expires"="Sat, 1 Jan 2000 12:00:00 GMT"}, 
+     * 	stylesheet="PsPdfBundle:Example:pdfStylesheet.xml.twig"
+     * )
      */
     public function usingAutomaticFormatGuessingAction($name)
     {

@@ -26,6 +26,7 @@
     		<argument id="ps_pdf.facade" type="service" />
     		<argument id="annotation_reader" type="service" />
     		<argument id="ps_pdf.reflection_factory" type="service" />
+    		<argument id="templating" type="service" />
     	</service>
     	
     	<service id="ps_pdf.reflection_factory" class="Ps\PdfBundle\Reflection\Factory" public="false" />
