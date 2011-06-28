@@ -64,7 +64,7 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider annotationProvider
      */
-    public function setControllerOnlyIfRequestFormatIsPdfAndAnnotationExists($annotation, $format, $shouldControllerBeenSet)
+    public function setAnnotationObjectToRequestIfRequestFormatIsPdfAndAnnotationExists($annotation, $format, $shouldControllerBeenSet)
     {
         $objectStub = new FileLocator();
         $controllerStub = array($objectStub, 'locate');
