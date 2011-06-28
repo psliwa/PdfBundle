@@ -11,6 +11,7 @@ namespace Ps\PdfBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Ps\PdfBundle\Annotation\Pdf;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * Controller with examples
@@ -44,6 +45,7 @@ class ExampleController extends Controller
      * 	headers={"Expires"="Sat, 1 Jan 2000 12:00:00 GMT"}, 
      * 	stylesheet="PsPdfBundle:Example:pdfStylesheet.xml.twig"
      * )
+     * @Template()
      */
     public function usingAutomaticFormatGuessingAction($name)
     {

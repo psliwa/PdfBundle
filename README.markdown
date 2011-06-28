@@ -46,6 +46,7 @@ All options are optional.
     ps_pdf:
         fonts_file: ~
         enhancements_file: ~
+        use_cache_in_stylesheet: ~
         cache:
           type: ~
           options: ~
@@ -54,6 +55,7 @@ All options are optional.
 * enhancements_file - path to file with complex attributes (enhancements) definitions, internal enhancements.xml file from PHPPdf library is used by default
 * cache.type - type of cache, supported are all backend cache from Zend_Cache component (for instance File, Apc, Memcached, Sqlite etc.). File engine is used by default.
 * cache.options - specyfic options for cache engine (for instance "cache_dir" for File engine). cache_dir by default is as same as kernel.cache_dir.
+* use_cache_in_stylesheet - stylesheet maching rules will be cache, if this option is set. In complex stylesheet cache significantly improves performance. Default is true, but **in dev environment cache should be off**.
 
 Example
 -------
