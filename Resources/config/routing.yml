@@ -11,3 +11,7 @@ _pdf_using_automatic_format_detection:
   defaults: { _controller: PsPdfBundle:Example:usingAutomaticFormatGuessing, _format: html }
   requirements:
     _format: html|pdf
+    
+_pdf_examples:
+  pattern: /examples
+  defaults: { _controller: PsPdfBundle:Example:examples }
