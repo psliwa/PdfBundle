@@ -94,7 +94,7 @@ Example
     
 Bundle automatically detects pdf format (via _format) request and create pdf document from response.
 
-Pdf annotation has two optional properties:
+Pdf annotation has three optional properties:
 
 * headers - associative array of specyfic headers
 * stylesheet - pdf stylesheet template file in standard Symfony2 notation ("Bundle:Controller:file.format.engine")
