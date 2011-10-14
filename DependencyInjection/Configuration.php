@@ -49,7 +49,7 @@ class Configuration implements ConfigurationInterface
                     ->scalarNode('markdown_document_template_filepath')
                       ->defaultNull()
                     ->end()
-                    ->scalarNode('document_parser')
+                    ->scalarNode('document_parser_type')
                       ->defaultValue('xml')
                     ->end()
                   ->end();

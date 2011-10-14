@@ -51,7 +51,7 @@ class PsPdfExtension extends Extension
     
     private function setConfigIntoContainer(ContainerBuilder $container, array $config)
     {
-        $this->setGenericConfig($container, $config, 'ps_pdf.%s', array('fonts_file', 'enhancements_file', 'use_cache_in_stylesheet', 'markdown_stylesheet_filepath', 'markdown_document_template_filepath', 'document_parser'));
+        $this->setGenericConfig($container, $config, 'ps_pdf.%s', array('fonts_file', 'enhancements_file', 'use_cache_in_stylesheet', 'markdown_stylesheet_filepath', 'markdown_document_template_filepath', 'document_parser_type'));
 
         if(isset($config['cache']))
         {

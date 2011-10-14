@@ -15,3 +15,9 @@ _pdf_using_automatic_format_detection:
 _pdf_examples:
   pattern: /examples
   defaults: { _controller: PsPdfBundle:Example:examples }
+  
+_pdf_markdown:
+  pattern: /markdown
+  defaults: { _controller: PsPdfBundle:Example:markdown, _format: pdf }
+  requirements:
+    _format: pdf

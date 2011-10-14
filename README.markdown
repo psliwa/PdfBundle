@@ -50,12 +50,18 @@ All options are optional.
         cache:
           type: ~
           options: ~
+        markdown_stylesheet_filepath: ~
+        markdown_document_template_filepath: ~
+        document_parser_type: ~
 
 * fonts_file - path to file with fonts definitions, internal fonts.xml file from PHPPdf library is used by default
 * enhancements_file - path to file with complex attributes (enhancements) definitions, internal enhancements.xml file from PHPPdf library is used by default
 * cache.type - type of cache, supported are all backend cache from Zend_Cache component (for instance File, Apc, Memcached, Sqlite etc.). File engine is used by default.
 * cache.options - specyfic options for cache engine (for instance "cache_dir" for File engine). cache_dir by default is as same as kernel.cache_dir.
 * use_cache_in_stylesheet - stylesheet maching rules will be cache, if this option is set. In complex stylesheet cache significantly improves performance. Default is true, but **in dev environment cache should be off**.
+* markdown_stylesheet_filepath - filepath of stylesheet for markdown parser
+* markdown_document_template_filepath - xml document template form output of markdown parser
+* document_parser_type - default parser type: xml or markdown
 
 Example
 -------
@@ -92,5 +98,6 @@ Pdf annotation has two optional properties:
 
 * headers - associative array of specyfic headers
 * stylesheet - pdf stylesheet template file in standard Symfony2 notation ("Bundle:Controller:file.format.engine")
+* documentParserType - type of parser: xml or markdown
 
 [1]: https://github.com/psliwa/PHPPdf

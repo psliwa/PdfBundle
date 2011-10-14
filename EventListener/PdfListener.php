@@ -8,8 +8,9 @@
 
 namespace Ps\PdfBundle\EventListener;
 
-use Symfony\Component\Templating\EngineInterface;
+use PHPPdf\Parser\FacadeBuilder;
 
+use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,14 +27,14 @@ use Doctrine\Common\Annotations\Reader;
  */
 class PdfListener
 {
-    private $pdfFacade;
+    private $pdfFacadeBuilder;
     private $annotationReader;
     private $reflectionFactory;
     private $templatingEngine;
     
-    public function __construct(Facade $pdfFacade, Reader $annotationReader, Factory $reflectionFactory, EngineInterface $templatingEngine)
+    public function __construct(FacadeBuilder $pdfFacadeBuilder, Reader $annotationReader, Factory $reflectionFactory, EngineInterface $templatingEngine)
     {
-        $this->pdfFacade = $pdfFacade;
+        $this->pdfFacadeBuilder = $pdfFacadeBuilder;
         $this->annotationReader = $annotationReader;
         $this->reflectionFactory = $reflectionFactory;
         $this->templatingEngine = $templatingEngine;
@@ -82,7 +83,8 @@ class PdfListener
             $stylesheetContent = $this->templatingEngine->render($stylesheet);
         }
         
-        $pdfFacade = $this->pdfFacade;
+        $pdfFacade = $this->pdfFacadeBuilder->setDocumentParserType($annotation->documentParserType)
+                                            ->build();
         $content = $pdfFacade->render($response->getContent(), $stylesheetContent);
 
         $headers = (array) $annotation->headers;

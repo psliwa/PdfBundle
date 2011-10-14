@@ -75,4 +75,17 @@ class ExampleController extends Controller
             throw new NotFoundHttpException('File with PHPPdf examples not found.');
         }
     }
+    
+    /**
+     * @Pdf(
+     * 	headers={"Expires"="Sat, 1 Jan 2000 12:00:00 GMT"},
+     *  documentParserType="markdown"
+     * )
+     */
+    public function markdownAction()
+    {
+        $format = $this->get('request')->get('_format');
+        
+        return $this->render(sprintf('PsPdfBundle:Example:markdown.%s.twig', $format));
+    }
 }

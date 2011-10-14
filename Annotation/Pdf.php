@@ -19,6 +19,7 @@ use Doctrine\Common\Annotations\Annotation;
 class Pdf
 {
     public $stylesheet;
+    public $documentParserType = 'xml';
     public $headers = array();
 
     public function __construct(array $values)
@@ -31,6 +32,11 @@ class Pdf
         if(isset($values['headers']))
         {
             $this->headers = $values['headers'];
+        }
+        
+        if(isset($values['documentParserType']))
+        {
+            $this->documentParserType = $values['documentParserType'];
         }
     }
 }
