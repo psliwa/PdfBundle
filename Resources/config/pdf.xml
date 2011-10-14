@@ -11,30 +11,37 @@
 			<parameter key="cache_dir">%kernel.cache_dir%</parameter>
 		</parameter>
 		<parameter key="ps_pdf.use_cache_in_stylesheet">true</parameter>
+		<parameter key="ps_pdf.markdown_stylesheet_filepath">null</parameter>
+		<parameter key="ps_pdf.markdown_document_template_filepath">null</parameter>
+		<parameter key="ps_pdf.document_parser">xml</parameter>
 	</parameters>
 
     <services>
-    	<service id="ps_pdf.facade" class="PHPPdf\Parser\Facade">
-    		<argument id="ps_pdf.configuration.loader" type="service" />
+    	<service id="ps_pdf.facade" class="PHPPdf\Parser\Facade" factory-service="ps_pdf.facade_builder" factory-method="build" />
+    	
+    	<service id="ps_pdf.facade_builder" class="PHPPdf\Parser\FacadeBuilder" factory-class="PHPPdf\Parser\FacadeBuilder" factory-method="create">
+    		<argument type="service">
+		    	<service class="PHPPdf\Configuration\DependencyInjection\LoaderImpl">
+		    		<argument type="service" id="service_container" />
+		    		<argument>%ps_pdf.enhancements_file%</argument>
+		    		<argument>%ps_pdf.fonts_file%</argument>
+		    	</service>
+    		</argument>
+    		<call method="setCache">
+    			<argument>%ps_pdf.cache.type%</argument>
+    			<argument type="collection">%ps_pdf.cache.options%</argument>
+    		</call>
     		<call method="setUseCacheForStylesheetConstraint">
     			<argument>%ps_pdf.use_cache_in_stylesheet%</argument>
     		</call>
-    		<call method="setCache">
-    			<argument id="ps_pdf.cache" type="service" />
+    		<call method="setMarkdownStylesheetFilepath">
+    			<argument>%ps_pdf.markdown_stylesheet_filepath%</argument>
     		</call>
-    	</service>
-    	
-    	<service id="ps_pdf.cache" class="PHPPdf\Cache\CacheImpl" public="false">
-    		<argument>%ps_pdf.cache.type%</argument>
-    		<argument>%ps_pdf.cache.options%</argument>
-    	</service>
-
-    	<service id="ps_pdf.configuration.loader" class="PHPPdf\Configuration\DependencyInjection\LoaderImpl" public="false">
-    		<argument type="service" id="service_container" />
-    		<argument>%ps_pdf.enhancements_file%</argument>
-    		<argument>%ps_pdf.fonts_file%</argument>
-    		<call method="setCache">
-    			<argument id="ps_pdf.cache" type="service" />
+    		<call method="setMarkdownDocumentTemplateFilepath">
+    			<argument>%ps_pdf.markdown_document_template_filepath%</argument>
+    		</call>
+    		<call method="setDocumentParserType">
+    			<argument>%ps_pdf.document_parser%</argument>
     		</call>
     	</service>
     	

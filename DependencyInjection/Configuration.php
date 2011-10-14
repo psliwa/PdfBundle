@@ -43,6 +43,15 @@ class Configuration implements ConfigurationInterface
                     ->scalarNode('enhancements_file')
                       ->defaultNull()
                     ->end()
+                    ->scalarNode('markdown_stylesheet_filepath')
+                      ->defaultNull()
+                    ->end()
+                    ->scalarNode('markdown_document_template_filepath')
+                      ->defaultNull()
+                    ->end()
+                    ->scalarNode('document_parser')
+                      ->defaultValue('xml')
+                    ->end()
                   ->end();
 
         return $treeBuilder;
