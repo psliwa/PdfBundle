@@ -12,6 +12,7 @@ use Ps\PdfBundle\EventListener\PdfListener;
 
 class PdfListenerTest extends \PHPUnit_Framework_TestCase
 {
+    private $pdfFacadeBuilder;
     private $pdfFacade;
     private $annotationReader;
     private $listener;
@@ -23,6 +24,11 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
+        $this->pdfFacadeBuilder = $this->getMockBuilder('PHPPdf\Parser\FacadeBuilder')
+                                       ->disableOriginalConstructor()
+                                       ->setMethods(array('build', 'setDocumentParserType'))
+                                       ->getMock();
+        
         $this->pdfFacade = $this->getMockBuilder('PHPPdf\Parser\Facade')
                                 ->disableOriginalConstructor()
                                 ->setMethods(array('render'))
@@ -39,7 +45,7 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
                                        ->setMethods(array('getMethodAnnotations', 'getMethodAnnotation', 'getClassAnnotations', 'getClassAnnotation', 'getPropertyAnnotations', 'getPropertyAnnotation'))
                                        ->getMock();
 
-        $this->listener = new PdfListener($this->pdfFacade, $this->annotationReader, $this->reflactionFactory, $this->templatingEngine);
+        $this->listener = new PdfListener($this->pdfFacadeBuilder, $this->annotationReader, $this->reflactionFactory, $this->templatingEngine);
         
         $this->request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                               ->setMethods(array('get'))
@@ -141,6 +147,14 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
         $responseContent = 'controller result stub';
         $responseStub = new Response($responseContent);
         
+        $this->pdfFacadeBuilder->expects($this->once())
+                               ->method('setDocumentParserType')
+                               ->with($annotation->documentParserType)
+                               ->will($this->returnValue($this->pdfFacadeBuilder));
+        $this->pdfFacadeBuilder->expects($this->once())
+                               ->method('build')
+                               ->will($this->returnValue($this->pdfFacade));                               
+        
         $this->pdfFacade->expects($this->once())
                         ->method('render')
                         ->with($responseContent)
@@ -175,6 +189,14 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
                                ->with($stylesheetPath)
                                ->will($this->returnValue($stylesheetContent));
         
+        $this->pdfFacadeBuilder->expects($this->once())
+                               ->method('setDocumentParserType')
+                               ->with($annotation->documentParserType)
+                               ->will($this->returnValue($this->pdfFacadeBuilder));
+        $this->pdfFacadeBuilder->expects($this->once())
+                               ->method('build')
+                               ->will($this->returnValue($this->pdfFacade));  
+                               
         $this->pdfFacade->expects($this->once())
                         ->method('render')
                         ->with($this->anything(), $stylesheetContent);
