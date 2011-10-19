@@ -8,8 +8,7 @@
 
 namespace Ps\PdfBundle\EventListener;
 
-use PHPPdf\Parser\FacadeBuilder;
-
+use PHPPdf\Core\FacadeBuilder;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;

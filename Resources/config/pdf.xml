@@ -17,11 +17,11 @@
 	</parameters>
 
     <services>
-    	<service id="ps_pdf.facade" class="PHPPdf\Parser\Facade" factory-service="ps_pdf.facade_builder" factory-method="build" />
+    	<service id="ps_pdf.facade" class="PHPPdf\Core\Facade" factory-service="ps_pdf.facade_builder" factory-method="build" />
     	
-    	<service id="ps_pdf.facade_builder" class="PHPPdf\Parser\FacadeBuilder" factory-class="PHPPdf\Parser\FacadeBuilder" factory-method="create">
+    	<service id="ps_pdf.facade_builder" class="PHPPdf\Core\FacadeBuilder" factory-class="PHPPdf\Core\FacadeBuilder" factory-method="create">
     		<argument type="service">
-		    	<service class="PHPPdf\Configuration\DependencyInjection\LoaderImpl">
+		    	<service class="PHPPdf\Core\Configuration\DependencyInjection\LoaderImpl">
 		    		<argument type="service" id="service_container" />
 		    		<argument>%ps_pdf.enhancements_file%</argument>
 		    		<argument>%ps_pdf.fonts_file%</argument>

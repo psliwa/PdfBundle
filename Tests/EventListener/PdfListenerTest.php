@@ -24,12 +24,12 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        $this->pdfFacadeBuilder = $this->getMockBuilder('PHPPdf\Parser\FacadeBuilder')
+        $this->pdfFacadeBuilder = $this->getMockBuilder('PHPPdf\Core\FacadeBuilder')
                                        ->disableOriginalConstructor()
                                        ->setMethods(array('build', 'setDocumentParserType'))
                                        ->getMock();
         
-        $this->pdfFacade = $this->getMockBuilder('PHPPdf\Parser\Facade')
+        $this->pdfFacade = $this->getMockBuilder('PHPPdf\Core\Facade')
                                 ->disableOriginalConstructor()
                                 ->setMethods(array('render'))
                                 ->getMock();
