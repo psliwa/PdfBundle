@@ -2,6 +2,8 @@
 
 namespace Ps\PdfBundle\Test\EventListener;
 
+use PHPPdf\Parser\Exception\ParseException;
+
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
@@ -147,13 +149,7 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
         $responseContent = 'controller result stub';
         $responseStub = new Response($responseContent);
         
-        $this->pdfFacadeBuilder->expects($this->once())
-                               ->method('setDocumentParserType')
-                               ->with($annotation->documentParserType)
-                               ->will($this->returnValue($this->pdfFacadeBuilder));
-        $this->pdfFacadeBuilder->expects($this->once())
-                               ->method('build')
-                               ->will($this->returnValue($this->pdfFacade));                               
+        $this->expectPdfFacadeBuilding($annotation);
         
         $this->pdfFacade->expects($this->once())
                         ->method('render')
@@ -167,6 +163,51 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
         $response = $event->getResponse();
         
         $this->assertEquals($contentStub, $response->getContent());
+    }
+    
+    private function expectPdfFacadeBuilding(Pdf $annotation)
+    {
+        $this->pdfFacadeBuilder->expects($this->once())
+                               ->method('setDocumentParserType')
+                               ->with($annotation->documentParserType)
+                               ->will($this->returnValue($this->pdfFacadeBuilder));
+        $this->pdfFacadeBuilder->expects($this->once())
+                               ->method('build')
+                               ->will($this->returnValue($this->pdfFacade));        
+    }
+    
+    /**
+     * @test
+     */
+    public function setResponseContentTypeAndRequestFormatOnException()
+    {
+        $annotation = new Pdf(array());
+        $this->requestAttributes->expects($this->once())
+                                ->method('get')
+                                ->with('_pdf')
+                                ->will($this->returnValue($annotation));
+        
+        $this->expectPdfFacadeBuilding($annotation);
+
+        $exception = new ParseException();
+                               
+        $this->pdfFacade->expects($this->once())
+                        ->method('render')
+                        ->will($this->throwException($exception));
+
+        $responseStub = new Response();
+        $event = new FilterResponseEventStub($this->request, $responseStub);
+                        
+        try
+        {
+            $this->listener->onKernelResponse($event);
+            $this->fail('exception expected');
+        }
+        catch(ParseException $e)
+        {
+            $this->assertEquals('text/html', $responseStub->headers->get('content-type'));
+            $this->assertEquals('html', $this->request->getRequestFormat('pdf'));
+        }
     }
     
     /**

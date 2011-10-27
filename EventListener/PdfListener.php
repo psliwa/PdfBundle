@@ -8,12 +8,14 @@
 
 namespace Ps\PdfBundle\EventListener;
 
+use Symfony\Component\HttpFoundation\Request;
+use PHPPdf\Core\Facade;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use PHPPdf\Core\FacadeBuilder;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpFoundation\Response;
-use PHPPdf\Parser\Facade;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Ps\PdfBundle\Reflection\Factory;
 use Doctrine\Common\Annotations\Reader;
@@ -84,7 +86,8 @@ class PdfListener
         
         $pdfFacade = $this->pdfFacadeBuilder->setDocumentParserType($annotation->documentParserType)
                                             ->build();
-        $content = $pdfFacade->render($response->getContent(), $stylesheetContent);
+
+        $content = $this->getPdfContent($pdfFacade, $response, $request, $stylesheetContent);                       
 
         $headers = (array) $annotation->headers;
         $headers['content-length'] = strlen($content);
@@ -94,5 +97,19 @@ class PdfListener
         }
 
         $response->setContent($content);
+    }
+    
+    private function getPdfContent(Facade $pdfFacade, Response $response, Request $request, $stylesheetContent)
+    {
+        try
+        {
+            return $pdfFacade->render($response->getContent(), $stylesheetContent);
+        }
+        catch(\Exception $e)
+        {
+            $request->setRequestFormat('html');
+            $response->headers->set('content-type', 'text/html');
+            throw new $e;
+        }
     }
 }
