@@ -63,6 +63,20 @@ All options are optional.
 * markdown_document_template_filepath - xml document template form output of markdown parser
 * document_parser_type - default parser type: xml or markdown
 
+Images in source document
+-------------------------
+
+In order to image display, you must provide absolute path to image file via "src" attribute of image tag. Asset Twig function dosn't work, because it converts image path to relative path according to web directory. To make using of images easier, bundle provides Twig function, that converts image logical name to real, absolute path.
+
+Example:
+
+    <pdf>
+        <dynamic-page>
+            <!-- pdf_image('BundleName:image-name.extension') -->
+            <img src="{{ pdf_image('SymfonyWebConfiguratorBundle:blue-arrow.png') }}" />
+        </dynamic-page>
+    </pdf>
+
 Example
 -------
     // In controller

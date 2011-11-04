@@ -56,5 +56,14 @@
     	</service>
     	
     	<service id="ps_pdf.reflection_factory" class="Ps\PdfBundle\Reflection\Factory" public="false" />
+    	
+    	<service id="ps_pdf.twig.pdf_extension" class="Ps\PdfBundle\Twig\Extensions\Extension\PdfExtension" public="false">
+    		<tag name="twig.extension" />
+    		<argument type="service" id="ps_pdf.templating.image_locator" />
+    	</service>
+    	
+    	<service id="ps_pdf.templating.image_locator" class="Ps\PdfBundle\Templating\ImageLocator" public="false">
+    		<argument type="service" id="kernel" />
+    	</service>
     </services>
 </container>
