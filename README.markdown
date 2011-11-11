@@ -11,7 +11,7 @@ Installation
   1. Add this bundle and [PHPPdf][1] library to /vendor directory:
 
           git submodule add git://github.com/psliwa/PdfBundle.git vendor/bundles/Ps/PdfBundle
-          git submodule add git://github.com/psliwa/PHPPdf.git vendor/PHPPdf
+          git submodule add -b zf1-in-backend git://github.com/psliwa/PHPPdf.git vendor/PHPPdf
 
   2. Register bundle and [PHPPdf][1] library in autoloader:
 
