@@ -13,19 +13,20 @@ Installation
           git submodule add git://github.com/psliwa/PdfBundle.git vendor/bundles/Ps/PdfBundle
           git submodule add git://github.com/psliwa/PHPPdf.git vendor/PHPPdf
 
-  2. Register bundle and [PHPPdf][1] library in autoloader:
+  2. Download dependencies (for example Zend_Pdf component) of PHPPdf library. You can skip this step, if your application has had dependency on ZF2 framework already.
+  
+          php vendor/PHPPdf/vendors.php
+
+  3. Register bundle and [PHPPdf][1] library in autoloader:
 
           //app/autoload.php
           $loader->registerNamespaces(array(
               'Ps' => __DIR__.'/../vendor/bundles',
               'PHPPdf' => __DIR__.'/../vendor/PHPPdf/lib',
-          ));
-    
-          $loader->registerPrefixes(array(
-              'Zend_' => __DIR__.'/../vendor/PHPPdf/lib/vendor',
+              'Zend' => __DIR__.'/../vendor/PHPPdf/lib/vendor',//If you have used ZF2 packages already, you should skip this entry
           ));
 
-  3. Register bundle in AppKernel:
+  4. Register bundle in AppKernel:
 
           //app/AppKernel.php
           public function registerBundles()
