@@ -109,7 +109,7 @@ class PdfListener
         {
             $request->setRequestFormat('html');
             $response->headers->set('content-type', 'text/html');
-            throw new $e;
+            throw $e;
         }
     }
 }
