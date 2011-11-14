@@ -46,8 +46,8 @@
     	</service>
     	
     	<service id="ps_pdf.listener" class="Ps\PdfBundle\EventListener\PdfListener">
-    		<tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" priority="-300" />
-    		<tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" priority="-300" />
+    		<tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" priority="1000" />
+    		<tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" priority="1000" />
     		<tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
     		<argument id="ps_pdf.facade_builder" type="service" />
     		<argument id="annotation_reader" type="service" />

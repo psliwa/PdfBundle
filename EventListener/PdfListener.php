@@ -52,7 +52,7 @@ class PdfListener
         $request = $event->getRequest();        
         $format = $request->get('_format');
         
-        if($format != 'pdf' || !($controller = $event->getController()))
+        if($format != 'pdf' || !is_array($controller = $event->getController()))
         {
             return;
         }
