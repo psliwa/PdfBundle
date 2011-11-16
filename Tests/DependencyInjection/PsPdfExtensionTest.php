@@ -49,6 +49,22 @@ class PsPdfExtensionTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function insertCacheObjectIntoContainer()
+    {
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.cache_dir', '/');
+        
+        $this->extension->load(array(), $container);
+        
+        $this->assertTrue($container->has('ps_pdf.cache'));
+        $cache = $container->get('ps_pdf.cache');
+        
+        $this->assertInstanceOf('PHPPdf\Cache\Cache', $cache);
+    }
+   
+    /**
+     * @test
+     */
     public function setContainerParametersIfPassed()
     {
         $container = new ContainerBuilder();

@@ -8,6 +8,8 @@
 
 namespace Ps\PdfBundle\EventListener;
 
+use PHPPdf\Cache\Cache;
+use Ps\PdfBundle\Annotation\Pdf as PdfAnnotation;
 use Symfony\Component\HttpFoundation\Request;
 use PHPPdf\Core\Facade;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -32,13 +34,15 @@ class PdfListener
     private $annotationReader;
     private $reflectionFactory;
     private $templatingEngine;
+    private $cache;
     
-    public function __construct(FacadeBuilder $pdfFacadeBuilder, Reader $annotationReader, Factory $reflectionFactory, EngineInterface $templatingEngine)
+    public function __construct(FacadeBuilder $pdfFacadeBuilder, Reader $annotationReader, Factory $reflectionFactory, EngineInterface $templatingEngine, Cache $cache)
     {
         $this->pdfFacadeBuilder = $pdfFacadeBuilder;
         $this->annotationReader = $annotationReader;
         $this->reflectionFactory = $reflectionFactory;
         $this->templatingEngine = $templatingEngine;
+        $this->cache = $cache;
     }
     
     public function onKernelRequest(GetResponseEvent $event)
@@ -52,7 +56,7 @@ class PdfListener
         $request = $event->getRequest();        
         $format = $request->get('_format');
         
-        if($format != 'pdf' || !is_array($controller = $event->getController()))
+        if($format != 'pdf' || !is_array($controller = $event->getController()) || !$controller)
         {
             return;
         }
@@ -84,10 +88,7 @@ class PdfListener
             $stylesheetContent = $this->templatingEngine->render($stylesheet);
         }
         
-        $pdfFacade = $this->pdfFacadeBuilder->setDocumentParserType($annotation->documentParserType)
-                                            ->build();
-
-        $content = $this->getPdfContent($pdfFacade, $response, $request, $stylesheetContent);                       
+        $content = $this->getPdfContent($annotation, $response, $request, $stylesheetContent);                       
 
         $headers = (array) $annotation->headers;
         $headers['content-length'] = strlen($content);
@@ -99,11 +100,38 @@ class PdfListener
         $response->setContent($content);
     }
     
-    private function getPdfContent(Facade $pdfFacade, Response $response, Request $request, $stylesheetContent)
+    private function getPdfContent(PdfAnnotation $pdfAnnotation, Response $response, Request $request, $stylesheetContent)
     {
         try
         {
-            return $pdfFacade->render($response->getContent(), $stylesheetContent);
+            $responseContent = $response->getContent();
+            
+            $pdfContent = null;
+            
+            if($pdfAnnotation->enableCache)
+            {
+                $cacheKey = md5($responseContent.$stylesheetContent);
+                
+                if($this->cache->test($cacheKey))
+                {
+                    $pdfContent = $this->cache->load($cacheKey);
+                }
+            }
+
+            if($pdfContent === null)
+            {
+                $pdfFacade = $this->pdfFacadeBuilder->setDocumentParserType($pdfAnnotation->documentParserType)
+                                                    ->build();
+                                                    
+                $pdfContent = $pdfFacade->render($responseContent, $stylesheetContent);   
+             
+                if($pdfAnnotation->enableCache)
+                {
+                    $this->cache->save($pdfContent, $cacheKey);
+                }
+            }
+            
+            return $pdfContent;
         }
         catch(\Exception $e)
         {

@@ -23,6 +23,7 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
     private $requestAttributes;
     private $reflactionFactory;
     private $templatingEngine;
+    private $cache;
     
     public function setUp()
     {
@@ -46,8 +47,10 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
         $this->annotationReader = $this->getMockBuilder('Doctrine\Common\Annotations\Reader')
                                        ->setMethods(array('getMethodAnnotations', 'getMethodAnnotation', 'getClassAnnotations', 'getClassAnnotation', 'getPropertyAnnotations', 'getPropertyAnnotation'))
                                        ->getMock();
+                                       
+        $this->cache = $this->getMock('PHPPdf\Cache\Cache');
 
-        $this->listener = new PdfListener($this->pdfFacadeBuilder, $this->annotationReader, $this->reflactionFactory, $this->templatingEngine);
+        $this->listener = new PdfListener($this->pdfFacadeBuilder, $this->annotationReader, $this->reflactionFactory, $this->templatingEngine, $this->cache);
         
         $this->request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                               ->setMethods(array('get'))
@@ -136,10 +139,11 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
     
     /**
      * @test
+     * @dataProvider booleanPairProvider
      */
-    public function invokePdfRenderingOnViewEvent()
+    public function invokePdfRenderingOnViewEvent($enableCache, $freshCache)
     {
-        $annotation = new Pdf(array());
+        $annotation = new Pdf(array('enableCache' => $enableCache));
         $this->requestAttributes->expects($this->once())
                                 ->method('get')
                                 ->with('_pdf')
@@ -148,13 +152,54 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
         $contentStub = 'stub';
         $responseContent = 'controller result stub';
         $responseStub = new Response($responseContent);
-        
-        $this->expectPdfFacadeBuilding($annotation);
-        
-        $this->pdfFacade->expects($this->once())
-                        ->method('render')
-                        ->with($responseContent)
-                        ->will($this->returnValue($contentStub));
+
+        if($enableCache)
+        {
+            $cacheKey = md5($responseContent);
+            $this->cache->expects($this->once())
+                        ->method('test')
+                        ->with($cacheKey)
+                        ->will($this->returnValue($freshCache));
+            
+            if($freshCache)
+            {
+                $this->cache->expects($this->once())
+                            ->method('load')
+                            ->with($cacheKey)
+                            ->will($this->returnValue($contentStub));
+            }
+            else
+            {
+                $this->cache->expects($this->never())
+                            ->method('load');
+                
+                $this->expectPdfFacadeBuilding($annotation);
+                
+                $this->pdfFacade->expects($this->once())
+                                ->method('render')
+                                ->with($responseContent)
+                                ->will($this->returnValue($contentStub));
+                                
+                $this->cache->expects($this->once())
+                            ->method('save')
+                            ->with($contentStub, $cacheKey);
+            }
+        }
+        else
+        {
+            foreach(array('test', 'load', 'save') as $method)
+            {
+                $this->cache->expects($this->never())
+                            ->method($method);
+            }
+            
+            $this->expectPdfFacadeBuilding($annotation);
+            
+            $this->pdfFacade->expects($this->once())
+                            ->method('render')
+                            ->with($responseContent)
+                            ->will($this->returnValue($contentStub));
+        }
         
         $event = new FilterResponseEventStub($this->request, $responseStub);
                         
@@ -163,6 +208,15 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
         $response = $event->getResponse();
         
         $this->assertEquals($contentStub, $response->getContent());
+    }
+    
+    public function booleanPairProvider()
+    {
+        return array(
+            array(false, false),
+            array(true, true),
+            array(true, false),
+        );
     }
     
     private function expectPdfFacadeBuilding(Pdf $annotation)
@@ -181,7 +235,7 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
      */
     public function setResponseContentTypeAndRequestFormatOnException()
     {
-        $annotation = new Pdf(array());
+        $annotation = new Pdf(array('enableCache' => false));
         $this->requestAttributes->expects($this->once())
                                 ->method('get')
                                 ->with('_pdf')
@@ -217,7 +271,7 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
     {
         $stylesheetPath = 'some path';
         
-        $annotation = new Pdf(array('stylesheet' => $stylesheetPath));
+        $annotation = new Pdf(array('stylesheet' => $stylesheetPath, 'enableCache' => false));
         $this->requestAttributes->expects($this->once())
                                 ->method('get')
                                 ->with('_pdf')

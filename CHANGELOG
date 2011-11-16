@@ -1,3 +1,7 @@
+2011-11-11
+* new @Pdf annotation option: enableCache (boolean)
+* fix DI configuration
+
 2011-11-11:
 * new branch: zf1-in-backend - version compatible with "zf1-in-backend" branch of PHPPdf library and PHPPdf 1.0.0
 * master branch is now compatible with PHPPdf 1.0.1 and newer, supported version of Zend Framework components is 2.0.0-beta1 and newer.

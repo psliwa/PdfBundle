@@ -29,7 +29,7 @@
     		</argument>
     		<call method="setCache">
     			<argument>%ps_pdf.cache.type%</argument>
-    			<argument type="collection">%ps_pdf.cache.options%</argument>
+    			<argument>%ps_pdf.cache.options%</argument>
     		</call>
     		<call method="setUseCacheForStylesheetConstraint">
     			<argument>%ps_pdf.use_cache_in_stylesheet%</argument>
@@ -53,6 +53,7 @@
     		<argument id="annotation_reader" type="service" />
     		<argument id="ps_pdf.reflection_factory" type="service" />
     		<argument id="templating" type="service" />
+    		<argument id="ps_pdf.cache" type="service" />
     	</service>
     	
     	<service id="ps_pdf.reflection_factory" class="Ps\PdfBundle\Reflection\Factory" public="false" />
@@ -64,6 +65,11 @@
     	
     	<service id="ps_pdf.templating.image_locator" class="Ps\PdfBundle\Templating\ImageLocator" public="false">
     		<argument type="service" id="kernel" />
+    	</service>
+    	
+    	<service id="ps_pdf.cache" class="PHPPdf\Cache\CacheImpl">
+    		<argument>%ps_pdf.cache.type%</argument>
+    		<argument>%ps_pdf.cache.options%</argument>
     	</service>
     </services>
 </container>
