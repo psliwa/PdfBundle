@@ -9,7 +9,6 @@
 namespace Ps\PdfBundle\Controller;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Ps\PdfBundle\Annotation\Pdf;
@@ -44,7 +43,8 @@ class ExampleController extends Controller
      * 
      * @Pdf(
      * 	headers={"Expires"="Sat, 1 Jan 2000 12:00:00 GMT"}, 
-     * 	stylesheet="PsPdfBundle:Example:pdfStylesheet.xml.twig"
+     * 	stylesheet="PsPdfBundle:Example:pdfStylesheet.xml.twig",
+     *  enableCache=true
      * )
      */
     public function usingAutomaticFormatGuessingAction($name)

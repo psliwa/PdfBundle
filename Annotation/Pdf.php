@@ -21,22 +21,22 @@ class Pdf
     public $stylesheet;
     public $documentParserType = 'xml';
     public $headers = array();
+    public $enableCache = false;
 
     public function __construct(array $values)
     {
-        if(isset($values['stylesheet']))
-        {
-            $this->stylesheet = $values['stylesheet'];
-        }
+        $currentValues = get_object_vars($this);
         
-        if(isset($values['headers']))
+        foreach($values as $key => $value)
         {
-            $this->headers = $values['headers'];
-        }
-        
-        if(isset($values['documentParserType']))
-        {
-            $this->documentParserType = $values['documentParserType'];
+            if(array_key_exists($key, $currentValues))
+            {
+                $this->$key = $value;
+            }
+            else
+            {
+                throw new \InvalidArgumentException(sprintf('Argument "%s" for @Pdf() annotation is unsupported.', $key));
+            }
         }
     }
 }

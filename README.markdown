@@ -111,10 +111,11 @@ Example
     
 Bundle automatically detects pdf format (via _format) request and create pdf document from response.
 
-Pdf annotation has three optional properties:
+Pdf annotation has four optional properties:
 
 * headers - associative array of specyfic headers
 * stylesheet - pdf stylesheet template file in standard Symfony2 notation ("Bundle:Controller:file.format.engine")
 * documentParserType - type of parser: xml or markdown
+* enableCache - pdf output should by cached? True or false, default: false. Hash (md5) from template and stylesheet content is a cache key, only PHPPdf invocation is cached, controller is always called.
 
 [1]: https://github.com/psliwa/PHPPdf
