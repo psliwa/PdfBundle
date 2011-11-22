@@ -25,7 +25,10 @@ Installation
           $loader->registerNamespaces(array(
               'Ps' => __DIR__.'/../vendor/bundles',
               'PHPPdf' => __DIR__.'/../vendor/PHPPdf/lib',
-              'Zend' => __DIR__.'/../vendor/PHPPdf/lib/vendor',//If you have used ZF2 packages already, you should skip this entry
+          ));
+
+          $loader->registerPrefixes(array(
+              'Zend_' => __DIR__.'/../vendor/PHPPdf/lib/vendor',//If you have used ZF1 packages already, you should skip this entry
           ));
 
   4. Register bundle in AppKernel:
