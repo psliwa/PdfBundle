@@ -17,6 +17,20 @@ class Factory
 {
     public function createMethod($objectOrClass, $methodName)
     {
-        return new \ReflectionMethod($objectOrClass, $methodName);
+        $class = is_object($objectOrClass) ? get_class($objectOrClass) : (string) $objectOrClass;
+        
+        $class = $this->getUserClass($class);
+
+        return new \ReflectionMethod($class, $methodName);
+    }
+    
+    private function getUserClass($class)
+    {
+        if(class_exists('CG\Core\ClassUtils', true))
+        {
+            return \CG\Core\ClassUtils::getUserClass($class);
+        }
+
+        return $class;
     }
 }
