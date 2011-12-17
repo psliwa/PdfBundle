@@ -17,7 +17,6 @@ Installation
               target=/bundles/Ps/PdfBundle
           [PHPPdf]
               git=git://github.com/psliwa/PHPPdf.git
-              version=origin/1.0.x
 
   2. Download dependencies (for example Zend_Pdf component) of PHPPdf library. You can skip this step, if your application has had dependency on ZF2 framework already.
   
