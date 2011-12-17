@@ -10,10 +10,14 @@ Documentation of [PHPPdf][1] you can find on github (README file).
 Installation
 ------------
 
-  1. Add this bundle and [PHPPdf][1] library to /vendor directory:
+  1. Add this bundle and [PHPPdf][1] library to deps file:
 
-          git submodule add -b zf1-in-backend git://github.com/psliwa/PdfBundle.git vendor/bundles/Ps/PdfBundle
-          git submodule add -b zf1-in-backend git://github.com/psliwa/PHPPdf.git vendor/PHPPdf
+          [PdfBundle]
+              git=git://github.com/psliwa/PdfBundle.git
+              target=/bundles/Ps/PdfBundle
+          [PHPPdf]
+              git=git://github.com/psliwa/PHPPdf.git
+              version=origin/1.0.x
 
   2. Download dependencies (for example Zend_Pdf component) of PHPPdf library. You can skip this step, if your application has had dependency on ZF2 framework already.
   
