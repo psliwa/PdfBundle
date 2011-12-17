@@ -15,6 +15,7 @@ Installation
           [PdfBundle]
               git=git://github.com/psliwa/PdfBundle.git
               target=/bundles/Ps/PdfBundle
+              version=origin/1.0.x
           [PHPPdf]
               git=git://github.com/psliwa/PHPPdf.git
               version=origin/1.0.x
