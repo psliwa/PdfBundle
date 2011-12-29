@@ -1,3 +1,8 @@
+2011-12-29
+* fix support for PHPPdf 1.1.0-DEV version
+* rename config option ps_pdf.enhancements_file to ps_pdf.complex_attributes_file
+* new config options: ps_pdf.nodes_file and ps_pdf.colors_file
+
 2011-11-11
 * new @Pdf annotation option: enableCache (boolean)
 * fix DI configuration

@@ -71,8 +71,10 @@ class PsPdfExtensionTest extends \PHPUnit_Framework_TestCase
         $container->setParameter('kernel.cache_dir', '/');
         $config = array(
             array(
+                'nodes_file' => 'nodes file',
                 'fonts_file' => 'some file',
-                'enhancements_file' => 'some another file',
+                'complex_attributes_file' => 'some another file',
+                'colors_file' => 'colors file',
                 'cache' => array(
                     'type' => 'some type',
                     'options' => array(
@@ -88,8 +90,10 @@ class PsPdfExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->extension->load($config, $container);
         
+        $this->assertEquals($config[0]['nodes_file'], $container->getParameter('ps_pdf.nodes_file'));
+        $this->assertEquals($config[0]['colors_file'], $container->getParameter('ps_pdf.colors_file'));
         $this->assertEquals($config[0]['fonts_file'], $container->getParameter('ps_pdf.fonts_file'));
-        $this->assertEquals($config[0]['enhancements_file'], $container->getParameter('ps_pdf.enhancements_file'));
+        $this->assertEquals($config[0]['complex_attributes_file'], $container->getParameter('ps_pdf.complex_attributes_file'));
         $this->assertEquals($config[0]['cache']['type'], $container->getParameter('ps_pdf.cache.type'));
         $this->assertEquals($config[0]['cache']['options'], $container->getParameter('ps_pdf.cache.options'));
         $this->assertEquals($config[0]['use_cache_in_stylesheet'], $container->getParameter('ps_pdf.use_cache_in_stylesheet'));

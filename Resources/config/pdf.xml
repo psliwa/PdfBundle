@@ -4,8 +4,10 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
 	<parameters>
-		<parameter key="ps_pdf.enhancements_file">null</parameter>
+		<parameter key="ps_pdf.nodes_file">null</parameter>
+		<parameter key="ps_pdf.complex_attributes_file">null</parameter>
 		<parameter key="ps_pdf.fonts_file">null</parameter>
+		<parameter key="ps_pdf.colors_file">null</parameter>
 		<parameter key="ps_pdf.cache.type">File</parameter>
 		<parameter key="ps_pdf.cache.options" type="collection">
 			<parameter key="cache_dir">%kernel.cache_dir%</parameter>
@@ -21,10 +23,11 @@
     	
     	<service id="ps_pdf.facade_builder" class="PHPPdf\Core\FacadeBuilder" factory-class="PHPPdf\Core\FacadeBuilder" factory-method="create">
     		<argument type="service">
-		    	<service class="PHPPdf\Core\Configuration\DependencyInjection\LoaderImpl">
-		    		<argument type="service" id="service_container" />
-		    		<argument>%ps_pdf.enhancements_file%</argument>
+		    	<service class="PHPPdf\Core\Configuration\LoaderImpl">
+		    		<argument>%ps_pdf.nodes_file%</argument>
+		    		<argument>%ps_pdf.complex_attributes_file%</argument>
 		    		<argument>%ps_pdf.fonts_file%</argument>
+		    		<argument>%ps_pdf.colors_file%</argument>
 		    	</service>
     		</argument>
     		<call method="setCache">

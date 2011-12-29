@@ -50,8 +50,10 @@ All options are optional.
 
     # app/config/config.yml
     ps_pdf:
+        nodes_file: ~
         fonts_file: ~
-        enhancements_file: ~
+        complex_attributes_file: ~
+        colors_file: ~
         use_cache_in_stylesheet: ~
         cache:
           type: ~
@@ -60,8 +62,10 @@ All options are optional.
         markdown_document_template_filepath: ~
         document_parser_type: ~
 
+* nodes_file - path to file with nodes/tags definitions, internal nodes.xml file from PHPPdf library is used by default
 * fonts_file - path to file with fonts definitions, internal fonts.xml file from PHPPdf library is used by default
-* enhancements_file - path to file with complex attributes (enhancements) definitions, internal enhancements.xml file from PHPPdf library is used by default
+* complex_attributes_file - path to file with complex attributes definitions, internal complex-attributes.xml file from PHPPdf library is used by default
+* colors_file - path to file with default palette of colors, internal colors.xml file from PHPPdf library is used by default
 * cache.type - type of cache, supported are all backend cache from Zend_Cache component (for instance File, Apc, Memcached, Sqlite etc.). File engine is used by default.
 * cache.options - specyfic options for cache engine (for instance "cache_dir" for File engine). cache_dir by default is as same as kernel.cache_dir.
 * use_cache_in_stylesheet - stylesheet maching rules will be cache, if this option is set. In complex stylesheet cache significantly improves performance. Default is true, but **in dev environment cache should be off**.
