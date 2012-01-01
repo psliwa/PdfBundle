@@ -1,3 +1,6 @@
+2012-01-01
+* update supported PHPPdf version to 1.1.x branch
+
 2011-12-29
 * fix support for PHPPdf 1.1.0-DEV version
 * rename config option ps_pdf.enhancements_file to ps_pdf.complex_attributes_file
