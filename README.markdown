@@ -10,24 +10,26 @@ Documentation of [PHPPdf][1] you can find on github (README file).
 Installation
 ------------
 
-  1. Add this bundle and [PHPPdf][1] library to deps file:
+  1. Add this bundle and [PHPPdf][1] library to deps file and update vendors:
 
           [PdfBundle]
               git=git://github.com/psliwa/PdfBundle.git
               target=/bundles/Ps/PdfBundle
           [PHPPdf]
               git=git://github.com/psliwa/PHPPdf.git
+              version=origin/1.1.x
 
-  2. Download dependencies (for example Zend_Pdf component) of PHPPdf library. You can skip this step, if your application has had dependency on ZF2 framework already.
+  2. Download dependencies (for example Zend_Pdf component) of PHPPdf library. You can skip this step, if your application has had dependency on ZF2 framework and [Imagine][2] already.
   
           php vendor/PHPPdf/vendors.php
 
-  3. Register bundle and [PHPPdf][1] library in autoloader:
+  3. Register bundle, [PHPPdf][1], [Imagine][2] and ZF libraries in autoloader:
 
           //app/autoload.php
           $loader->registerNamespaces(array(
               'Ps' => __DIR__.'/../vendor/bundles',
               'PHPPdf' => __DIR__.'/../vendor/PHPPdf/lib',
+              'Imagine' => array(__DIR__.'/../vendor/PHPPdf/lib', __DIR__.'/../vendor/PHPPdf/lib/vendor/Imagine/lib'),
               'Zend' => __DIR__.'/../vendor/PHPPdf/lib/vendor',//If you have used ZF2 packages already, you should skip this entry
           ));
 
@@ -126,3 +128,4 @@ Pdf annotation has four optional properties:
 * enableCache - pdf output should by cached? True or false, default: false. Hash (md5) from template and stylesheet content is a cache key, only PHPPdf invocation is cached, controller is always called.
 
 [1]: https://github.com/psliwa/PHPPdf
+[2]: https://github.com/avalanche123/Imagine
