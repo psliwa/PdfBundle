@@ -19,7 +19,7 @@ Installation
               git=git://github.com/psliwa/PHPPdf.git
               version=origin/1.1.x
 
-  2. Download dependencies (for example Zend_Pdf component) of PHPPdf library. You can skip this step, if your application has had dependency on ZF2 framework and [Imagine][2] already.
+  2. Download dependencies (for example ZF2) of PHPPdf library. You can skip this step, if your application has had dependency on ZF2 framework and [Imagine][2] already. For more details see [installation section](https://github.com/psliwa/PHPPdf#installation) of PHPPdf documentation.
   
           php vendor/PHPPdf/vendors.php
 
@@ -30,7 +30,7 @@ Installation
               'Ps' => __DIR__.'/../vendor/bundles',
               'PHPPdf' => __DIR__.'/../vendor/PHPPdf/lib',
               'Imagine' => array(__DIR__.'/../vendor/PHPPdf/lib', __DIR__.'/../vendor/PHPPdf/lib/vendor/Imagine/lib'),
-              'Zend' => __DIR__.'/../vendor/PHPPdf/lib/vendor',//If you have used ZF2 packages already, you should skip this entry
+              'Zend' => __DIR__.'/../vendor/PHPPdf/lib/vendor/Zend/library',//If you have used ZF2 packages already, you should skip this entry
           ));
 
   4. Register bundle in AppKernel:
