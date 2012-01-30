@@ -1,3 +1,6 @@
+2012-01-30
+* support for bundle based path placeholder in fonts and document xml files
+
 2012-01-07
 * update supported PHPPdf version to 1.1.1 tag
 

@@ -89,6 +89,16 @@ Example:
         </dynamic-page>
     </pdf>
 
+Bundle based paths in fonts and document xml file
+-------------------------------------------------
+
+If you want to use custom fonts, you should create your own fonts.xml config file (default fonts filepath is PHPPdf\Resources\config\fonts.xml). To make easier defining fonts paths, bundle based paths are supported. Example:
+
+    <!-- some fonts.xml file -->
+    <italic src="%SomeBundle:file.ttf%" /> 
+    
+"%SomeBundle:file.ttf%" will be replaced by "path/to/SomeBundle/Resources/file.ttf"
+
 Example
 -------
     // In controller

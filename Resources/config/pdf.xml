@@ -16,6 +16,7 @@
 		<parameter key="ps_pdf.markdown_stylesheet_filepath">null</parameter>
 		<parameter key="ps_pdf.markdown_document_template_filepath">null</parameter>
 		<parameter key="ps_pdf.document_parser_type">xml</parameter>
+		<parameter key="ps_pdf.string_filter.bundle_based.class">Ps\PdfBundle\PHPPdf\Util\BundleBasedStringFilter</parameter>
 	</parameters>
 
     <services>
@@ -30,6 +31,9 @@
 		    		<argument>%ps_pdf.colors_file%</argument>
 		    	</service>
     		</argument>
+    		<call method="addStringFilter">
+    			<argument type="service" id="ps_pdf.string_filter.bundle_based" />
+    		</call>
     		<call method="setCache">
     			<argument>%ps_pdf.cache.type%</argument>
     			<argument>%ps_pdf.cache.options%</argument>
@@ -47,6 +51,10 @@
     			<argument>%ps_pdf.document_parser_type%</argument>
     		</call>
     	</service>
+    	
+		<service id="ps_pdf.string_filter.bundle_based" class="%ps_pdf.string_filter.bundle_based.class%" public="false">
+			<argument type="service" id="kernel" on-invalid="ignore" />
+		</service>
     	
     	<service id="ps_pdf.listener" class="Ps\PdfBundle\EventListener\PdfListener">
     		<tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" priority="1000" />
