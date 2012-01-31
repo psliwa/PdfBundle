@@ -5,6 +5,5 @@ php:
 
 before_script:
   - php vendor/vendors.php
-  - cd Tests
 
-script: phpunit
+script: phpunit --configuration Tests/phpunit.xml
