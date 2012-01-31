@@ -1,6 +1,8 @@
 PsPdfBundle
 ===========
 
+[![Build Status](https://secure.travis-ci.org/psliwa/PdfBundle.png?branch=master)](http://travis-ci.org/psliwa/PdfBundle)
+
 This bundle integrates Symfony2 with [PHPPdf][1] library.
 
 This branch is compatible with Zend Framework in 1.11 version. If you wish to use ZF2, you should be interested in master branch.
