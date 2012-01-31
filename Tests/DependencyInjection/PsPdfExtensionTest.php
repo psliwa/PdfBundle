@@ -36,7 +36,7 @@ class PsPdfExtensionTest extends \PHPUnit_Framework_TestCase
     public function insertFacadeBuilderObjectIntoContainer()
     {
         $container = new ContainerBuilder();
-        $container->setParameter('kernel.cache_dir', '/');
+        $container->setParameter('kernel.cache_dir', __DIR__.'/');
         
         $this->extension->load(array(), $container);
         
@@ -52,7 +52,7 @@ class PsPdfExtensionTest extends \PHPUnit_Framework_TestCase
     public function insertCacheObjectIntoContainer()
     {
         $container = new ContainerBuilder();
-        $container->setParameter('kernel.cache_dir', '/');
+        $container->setParameter('kernel.cache_dir', __DIR__.'/');
         
         $this->extension->load(array(), $container);
         
@@ -68,7 +68,7 @@ class PsPdfExtensionTest extends \PHPUnit_Framework_TestCase
     public function setContainerParametersIfPassed()
     {
         $container = new ContainerBuilder();
-        $container->setParameter('kernel.cache_dir', '/');
+        $container->setParameter('kernel.cache_dir', __DIR__.'/');
         $config = array(
             array(
                 'nodes_file' => 'nodes file',
