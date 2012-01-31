@@ -10,7 +10,7 @@ $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(
     'Symfony' => $vendorDir.'/symfony/src',
     'Doctrine\\Common' => $vendorDir.'/DoctrineCommon/lib',
-    'Ps\\PdfBundle' => __DIR__.'/..',
+    'Ps\\PdfBundle' => __DIR__.'/../..',
     'PHPPdf' => $vendorDir.'/PHPPdf/lib',
     'Imagine' => $vendorDir.'/Imagine/lib',
     'Zend' => $vendorDir.'/Zend/library'
