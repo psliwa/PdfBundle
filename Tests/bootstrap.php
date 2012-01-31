@@ -1,6 +1,7 @@
 <?php
 
-$vendorDir = __DIR__.'/../vendor';
+//$vendorDir = __DIR__.'/../vendor';
+$vendorDir = __DIR__.'/../../../../vendor';
 require_once $vendorDir.'/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
 
 use Symfony\Component\ClassLoader\UniversalClassLoader;
@@ -15,19 +16,11 @@ $loader->registerNamespaces(array(
     'Zend' => $vendorDir.'/Zend/library'
 ));
 
-$directories = array(
-	'Annotation', 
-	'Controller', 
-	'DependencyInjection', 
-	'EventListener', 'PHPPdf', 
-	'Reflection', 
-	'Templating', 
-	'Twig',
-);
-
-foreach($directories as $dir)
-{
-    $loader->registerNamespace(sprintf('Ps\\PdfBundle\\%s', $dir), __DIR__.'/..');
-}
+spl_autoload_register(function($class){
+    if(strpos($class, 'Ps\PdfBundle') === 0)
+    {
+        return require_once __DIR_.'/../'.str_replace('\\', '/', substr($class, 13)).'.php';
+    }
+});
 
 $loader->register();
