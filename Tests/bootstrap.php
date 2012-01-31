@@ -6,7 +6,7 @@ require_once $vendorDir.'/symfony/src/Symfony/Component/ClassLoader/UniversalCla
 $loader = new Symfony\Component\ClassLoader\UniversalClassLoader();
 $loader->registerNamespaces(array(
     'Symfony' => $vendorDir.'/symfony/src',
-    'Doctrine\\Common' => $vendorDir.'/Doctrine-Common/lib',
+    'Doctrine\\Common' => $vendorDir.'/DoctrineCommon/lib',
     'PHPPdf' => $vendorDir.'/PHPPdf/lib',
     'Imagine' => $vendorDir.'/Imagine/lib',
     'Zend' => $vendorDir.'/Zend/library'
