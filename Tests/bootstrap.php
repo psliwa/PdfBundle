@@ -10,10 +10,24 @@ $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(
     'Symfony' => $vendorDir.'/symfony/src',
     'Doctrine\\Common' => $vendorDir.'/DoctrineCommon/lib',
-    'Ps\\PdfBundle' => __DIR__.'/../..',
     'PHPPdf' => $vendorDir.'/PHPPdf/lib',
     'Imagine' => $vendorDir.'/Imagine/lib',
     'Zend' => $vendorDir.'/Zend/library'
 ));
+
+$directories = array(
+	'Annotation', 
+	'Controller', 
+	'DependencyInjection', 
+	'EventListener', 'PHPPdf', 
+	'Reflection', 
+	'Templating', 
+	'Twig',
+);
+
+foreach($directories as $dir)
+{
+    $loader->registerNamespace(sprintf('Ps\\PdfBundle\\%s', $dir), __DIR__.'/..');
+}
 
 $loader->register();
