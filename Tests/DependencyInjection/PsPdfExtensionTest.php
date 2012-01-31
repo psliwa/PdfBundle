@@ -20,7 +20,7 @@ class PsPdfExtensionTest extends \PHPUnit_Framework_TestCase
     public function insertFacadeObjectIntoContainer()
     {
         $container = new ContainerBuilder();
-        $container->setParameter('kernel.cache_dir', '/');
+        $container->setParameter('kernel.cache_dir', __DIR__.'/');
         
         $this->extension->load(array(), $container);
         

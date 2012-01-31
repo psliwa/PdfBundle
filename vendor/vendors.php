@@ -1,6 +1,6 @@
 <?php
 
-set_time_limit(0);
+set_time_limit(300);
 
 $deps = array(
     array('symfony', 'git://github.com/symfony/symfony.git', isset($_ENV['SYMFONY_VERSION']) ? $_ENV['SYMFONY_VERSION'] : 'v2.0.9'),
