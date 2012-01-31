@@ -5,8 +5,6 @@ PsPdfBundle
 
 This bundle integrates Symfony2 with [PHPPdf][1] library.
 
-This branch is compatible with Zend Framework in 1.11 version. If you wish to use ZF2, you should be interested in master branch.
-
 Documentation of [PHPPdf][1] you can find on github (README file).
 
 Installation
