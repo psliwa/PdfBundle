@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright 2011 Piotr Śliwa <peter.pl7@gmail.com>
+ * Copyright 2011 Piotr Sliwa <peter.pl7@gmail.com>
  *
  * License information is in LICENSE file
  */
@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Kernel;
 /**
  * Image locator
  * 
- * @author Piotr Śliwa <peter.pl7@gmail.com>
+ * @author Piotr Sliwa <peter.pl7@gmail.com>
  */
 class ImageLocator
 {
@@ -34,12 +34,17 @@ class ImageLocator
     public function getImagePath($logicalImageName)
     {
         $pos = strpos($logicalImageName, ':');
-        
-        $bundleName = substr($logicalImageName, 0, $pos);
+
+        $bundleName = substr($logicalImageName, 0, $pos);  
         $imageName = substr($logicalImageName, $pos + 1);
         
-        $bundle = $this->kernel->getBundle($bundleName);
+        // add support for ::$imagePath syntax as in twig
+        // @see http://symfony.com/doc/current/book/page_creation.html#optional-step-3-create-the-template
+        if (empty($bundleName)) {
+            return $this->kernel->getRootDir() . '/Resources/public/images/' . $imageName;
+        }
         
+        $bundle = $this->kernel->getBundle($bundleName);
         $bundlePath = $bundle->getPath();
         
         return $bundlePath.'/Resources/public/images/'.$imageName;
