@@ -12,7 +12,7 @@ class ImageLocatorTest extends \PHPUnit_Framework_TestCase
     protected function setup()
     {
         $this->kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\Kernel')
-                             ->setMethods(array('getBundle', 'registerBundles', 'registerContainerConfiguration'))
+                             ->setMethods(array('getBundle', 'registerBundles', 'registerContainerConfiguration', 'getRootDir'))
                              ->disableOriginalConstructor()
                              ->getMock();
                              
@@ -65,6 +65,26 @@ class ImageLocatorTest extends \PHPUnit_Framework_TestCase
                      ->method('getBundle')
                      ->will($this->throwException(new \InvalidArgumentException()));
                      
-        $this->locator->getImagePath('imagePath');
+        $this->locator->getImagePath('unexistedBundle:someImage.jpg');
+    }
+    
+    /**
+     * @test
+     */
+    public function getImagePathFromGlobalResources()
+    {
+        $rootDir = 'some/root/dir';
+        $imageName = 'some/image/name.jpg';
+        
+        $this->kernel->expects($this->once())
+                     ->method('getRootDir')
+                     ->will($this->returnValue($rootDir));
+                     
+        $this->kernel->expects($this->never())
+                     ->method('getBundle');
+
+        $expectedPath = $rootDir.'/Resources/public/images/'.$imageName;
+        
+        $this->assertEquals($expectedPath, $this->locator->getImagePath($imageName));
     }
 }
