@@ -67,16 +67,17 @@ class ImageLocatorTest extends \PHPUnit_Framework_TestCase
                      
         $this->locator->getImagePath('unexistedBundle:someImage.jpg');
     }
-    
+   
     /**
      * @test
      */
-    public function getImagePathFromGlobalResources()
+    public function getImagePathFromGlobalResourcesWhenBundleNameIsEmpty()
     {
         $rootDir = 'some/root/dir';
         $imageName = 'some/image/name.jpg';
+        $prefixes = array('', ':', '::');
         
-        $this->kernel->expects($this->once())
+        $this->kernel->expects($this->exactly(count($prefixes)))
                      ->method('getRootDir')
                      ->will($this->returnValue($rootDir));
                      
@@ -85,6 +86,9 @@ class ImageLocatorTest extends \PHPUnit_Framework_TestCase
 
         $expectedPath = $rootDir.'/Resources/public/images/'.$imageName;
         
-        $this->assertEquals($expectedPath, $this->locator->getImagePath($imageName));
+        foreach($prefixes as $prefix)
+        {
+            $this->assertEquals($expectedPath, $this->locator->getImagePath($prefix.$imageName));
+        }        
     }
 }

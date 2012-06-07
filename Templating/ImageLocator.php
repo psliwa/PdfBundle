@@ -37,9 +37,9 @@ class ImageLocator
 
         // add support for ::$imagePath syntax as in twig
         // @see http://symfony.com/doc/current/book/page_creation.html#optional-step-3-create-the-template
-        if($pos === false)
+        if($pos === false || $pos === 0)
         {
-            return $this->kernel->getRootDir() . '/Resources/public/images/' . $logicalImageName;
+            return $this->kernel->getRootDir() . '/Resources/public/images/' . ltrim($logicalImageName, ':');
         }
 
         $bundleName = substr($logicalImageName, 0, $pos);  
