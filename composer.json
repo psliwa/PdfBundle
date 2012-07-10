@@ -1,0 +1,23 @@
+{
+    "name": "psliwa/pdf-bundle",
+    "description": "This bundle integrates Symfony2 with PHPPdf library.",
+    "keywords": ["PDF", "PHPPdf"],
+    "type": "symfony-bundle",
+    "license": "",
+    "authors": [
+        {
+            "name":     "Piotr Śliwa",
+            "homepage": "http://ohey.pl",
+            "email":    ""
+        }     
+    ],
+    "require": {
+        "php":             ">=5.3.0",
+        "symfony/symfony": ">=2.0",
+        "psliwa/PHPPdf": "*"
+    },
+    "autoload": {
+        "psr-0": { "Ps\\PdfBundle": "" }
+    },
+    "target-dir": "Ps/PdfBundle"
+}
