@@ -3,7 +3,7 @@ PsPdfBundle
 
 [![Build Status](https://secure.travis-ci.org/psliwa/PdfBundle.png?branch=master)](http://travis-ci.org/psliwa/PdfBundle)
 
-This bundle integrates Symfony2 with [PHPPdf][1] library.
+This bundle integrates Symfony2 with [PHPPdf][1] library. Thanks to this bundle you can easily generate PDF or image (png, jpg) files.
 
 Documentation of [PHPPdf][1] you can find on github (README file).
 
