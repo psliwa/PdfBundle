@@ -63,17 +63,18 @@ class ExampleController extends Controller
     {
         $kernelRootDir = $this->container->getParameter('kernel.root_dir');
         
-        $propablyPhpPdfExamplesFilePath = $kernelRootDir.'/../vendor/PHPPdf/examples/index.php';
+        $propablyPhpPdfExamplesFilePaths = array($kernelRootDir.'/../vendor/PHPPdf/examples/index.php', $kernelRootDir.'/../vendor/psliwa/php-pdf/examples/index.php');
 
-        if(file_exists($propablyPhpPdfExamplesFilePath))
+        foreach($propablyPhpPdfExamplesFilePaths as $propablyPhpPdfExamplesFilePath)
         {
-            require $propablyPhpPdfExamplesFilePath;
-            exit();
+            if(file_exists($propablyPhpPdfExamplesFilePath))
+            {
+                require $propablyPhpPdfExamplesFilePath;
+                exit();
+            }
         }
-        else
-        {
-            throw new NotFoundHttpException('File with PHPPdf examples not found.');
-        }
+
+        throw new NotFoundHttpException('File with PHPPdf examples not found.');
     }
     
     /**
