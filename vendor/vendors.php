@@ -7,6 +7,7 @@ $deps = array(
     array('Doctrine\Common', 'git://github.com/doctrine/common.git', isset($_ENV['DOCTRINE_COMMON_VERSION']) ? $_ENV['DOCTRINE_COMMON_VERSION'] : '2.1.4'),
     array('Markdown', 'git://github.com/wolfie/php-markdown.git', 'd464071334'),
     array('Zend', 'git://github.com/zendframework/zf2.git', 'master'),
+    array('ZendPdf', 'git://github.com/zendframework/ZendPdf.git', 'master'),
     array('Imagine', 'git://github.com/avalanche123/Imagine.git', 'v0.2.6'),
     array('PHPPdf', 'git://github.com/psliwa/PHPPdf.git', 'origin/1.1.x'),
 );

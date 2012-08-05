@@ -10,7 +10,7 @@ Documentation of [PHPPdf][1] you can find on github (README file).
 Installation
 ------------
 
-  1. If you use composer to resolve dependencies, you can skip 2nd, 3rd and 4th steps. PsPdfBundle requires "minimum-stability" equals to dev. PHPPdf uses zendframework packages, so if you want use composer, you must add zendframework composer repository to your composer.json file.
+  1. If you use composer to resolve dependencies, you can skip 2nd, 3rd and 4th steps. PsPdfBundle requires "minimum-stability" equals to dev. PHPPdf uses zendframework packages, so if you want to use composer, you must add zendframework composer repository to your composer.json file.
 
         "repositories": [
             {

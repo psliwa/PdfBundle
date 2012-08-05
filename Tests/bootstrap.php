@@ -9,7 +9,8 @@ $loader->registerNamespaces(array(
     'Doctrine\\Common' => $vendorDir.'/DoctrineCommon/lib',
     'PHPPdf' => $vendorDir.'/PHPPdf/lib',
     'Imagine' => $vendorDir.'/Imagine/lib',
-    'Zend' => $vendorDir.'/Zend/library'
+    'Zend' => $vendorDir.'/Zend/library',
+	'Zend' => $vendorDir.'/ZendPdf/library',
 ));
 
 spl_autoload_register(function($class){
