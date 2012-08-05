@@ -10,7 +10,7 @@ $loader->registerNamespaces(array(
     'PHPPdf' => $vendorDir.'/PHPPdf/lib',
     'Imagine' => $vendorDir.'/Imagine/lib',
     'Zend' => $vendorDir.'/Zend/library',
-	'Zend' => $vendorDir.'/ZendPdf/library',
+	'ZendPdf' => $vendorDir.'/ZendPdf/library',
 ));
 
 spl_autoload_register(function($class){
