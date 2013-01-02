@@ -139,6 +139,27 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
     
     /**
      * @test
+     */
+    public function donotInvokePdfRenderingOnViewEventWhenResponseStatusIsError()
+    {
+        $annotation = new Pdf(array());
+        $this->requestAttributes->expects($this->once())
+                                ->method('get')
+                                ->with('_pdf')
+                                ->will($this->returnValue($annotation));
+        
+        $responseStub = new Response();
+        $responseStub->setStatusCode(300);        
+        $event = new FilterResponseEventStub($this->request, $responseStub);
+                        
+        $this->pdfFacadeBuilder->expects($this->never())
+                               ->method('build');
+        
+        $this->listener->onKernelResponse($event);
+    }
+    
+    /**
+     * @test
      * @dataProvider booleanPairProvider
      */
     public function invokePdfRenderingOnViewEvent($enableCache, $freshCache)

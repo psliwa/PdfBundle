@@ -81,7 +81,12 @@ class PdfListener
         }
         
         $response = $event->getResponse();
-               
+        
+        if($response->getStatusCode() > 299)
+        {
+            return;
+        }
+
         $stylesheetContent = null;
         if($stylesheet = $annotation->stylesheet)
         {
