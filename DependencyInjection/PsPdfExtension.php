@@ -60,7 +60,7 @@ class PsPdfExtension extends Extension
     {
         foreach($options as $name)
         {
-            if(!empty($config[$name]))
+            if(null !== $config[$name])
             {
                 $container->setParameter(sprintf($format, $name), $config[$name]);
             }
