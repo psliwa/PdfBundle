@@ -24,7 +24,7 @@ use Doctrine\Common\Annotations\Reader;
 
 /**
  * This listener will replace reponse content by pdf document's content if Pdf annotations is found.
- * Also adds pdf format to request object and adds proper headers to response object.
+ * Also adds proper headers to response object.
  * 
  * @author Piotr Śliwa <peter.pl7@gmail.com>
  */
@@ -43,12 +43,6 @@ class PdfListener
         $this->reflectionFactory = $reflectionFactory;
         $this->templatingEngine = $templatingEngine;
         $this->cache = $cache;
-    }
-    
-    public function onKernelRequest(GetResponseEvent $event)
-    {
-        $request = $event->getRequest();
-        $request->setFormat('pdf', 'application/pdf');
     }
     
     public function onKernelController(FilterControllerEvent $event)
