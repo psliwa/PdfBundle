@@ -20,9 +20,9 @@
 	</parameters>
 
     <services>
-    	<service id="ps_pdf.facade" class="PHPPdf\Core\Facade" factory-service="ps_pdf.facade_builder" factory-method="build" />
+    	<service id="ps_pdf.facade" class="PHPPdf\Core\Facade" />
     	
-    	<service id="ps_pdf.facade_builder" class="PHPPdf\Core\FacadeBuilder" factory-class="PHPPdf\Core\FacadeBuilder" factory-method="create">
+    	<service id="ps_pdf.facade_builder" class="PHPPdf\Core\FacadeBuilder">
     		<argument type="service">
 		    	<service class="PHPPdf\Core\Configuration\LoaderImpl">
 		    		<argument>%ps_pdf.nodes_file%</argument>

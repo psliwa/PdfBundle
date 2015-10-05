@@ -11,6 +11,7 @@ namespace Ps\PdfBundle\DependencyInjection;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -44,6 +45,26 @@ class PsPdfExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         
         $loader->load('pdf.xml');
+
+        // ps_pdf.facade definition
+        // TODO: Go back to xml configuration when bumping the requirement to Symfony >=2.6
+        $facadeDefinition = $container->getDefinition('ps_pdf.facade');
+        if (method_exists($facadeDefinition, 'setFactory')) {
+            $facadeDefinition->setFactory(array(new Reference('ps_pdf.facade_builder'), 'build'));
+        } else {
+            $facadeDefinition->setFactoryService('ps_pdf.facade_builder');
+            $facadeDefinition->setFactoryMethod('build');
+        }
+
+        // ps_pdf.facade_builder definition
+        // TODO: Go back to xml configuration when bumping the requirement to Symfony >=2.6
+        $facadeBuilderDefinition = $container->getDefinition('ps_pdf.facade_builder');
+        if (method_exists($facadeBuilderDefinition, 'setFactory')) {
+            $facadeBuilderDefinition->setFactory(array('PHPPdf\Core\FacadeBuilder', 'create'));
+        } else {
+            $facadeBuilderDefinition->setFactoryClass('PHPPdf\Core\FacadeBuilder');
+            $facadeBuilderDefinition->setFactoryMethod('create');
+        }
     }
     
     private function setConfigIntoContainer(ContainerBuilder $container, array $config)
