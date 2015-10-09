@@ -17,6 +17,9 @@
         "psliwa/php-pdf": "^1.1.5",
         "sensio/framework-extra-bundle": ">=2.0 <4.0.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^5.0"
+    },
     "autoload": {
         "psr-0": { "Ps\\PdfBundle": "" }
     },
