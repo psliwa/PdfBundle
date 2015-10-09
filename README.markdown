@@ -12,12 +12,7 @@ Installation
 
   1. Use composer. PsPdfBundle requires "minimum-stability" equals to dev. Modify composer.json:
 
-        "require": {
-          ...
-          "psliwa/pdf-bundle": "~1.0"
-        }, 
-        
-  run `composer update psliwa/pdf-bundle` to install the bundle
+  `composer require psliwa/pdf-bundle`
 
   2. Register bundle in AppKernel:
 
