@@ -59,14 +59,17 @@
     	<service id="ps_pdf.listener" class="Ps\PdfBundle\EventListener\PdfListener">
     		<tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" priority="1000" />
     		<tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" priority="1000" />
-    		<tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
     		<argument id="ps_pdf.facade_builder" type="service" />
     		<argument id="annotation_reader" type="service" />
     		<argument id="ps_pdf.reflection_factory" type="service" />
     		<argument id="templating" type="service" />
     		<argument id="ps_pdf.cache" type="service" />
     	</service>
-    	
+
+        <service id="ps_pdf.request_listener" class="Ps\PdfBundle\EventListener\PdfRequestListener">
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
+        </service>
+
     	<service id="ps_pdf.reflection_factory" class="Ps\PdfBundle\Reflection\Factory" public="false" />
     	
     	<service id="ps_pdf.twig.pdf_extension" class="Ps\PdfBundle\Twig\Extensions\Extension\PdfExtension" public="false">
