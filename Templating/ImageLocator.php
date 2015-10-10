@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Kernel;
  * 
  * @author Piotr Sliwa <peter.pl7@gmail.com>
  */
-class ImageLocator
+class ImageLocator implements ImageLocatorInterface
 {
     private $kernel;
     
@@ -29,7 +29,7 @@ class ImageLocator
      * 
      * @return string file path
      * 
-     * @throws InvalidArgumentException If bundle does not exist.
+     * @throws /InvalidArgumentException If bundle does not exist.
      */
     public function getImagePath($logicalImageName)
     {

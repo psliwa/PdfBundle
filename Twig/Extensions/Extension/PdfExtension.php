@@ -8,7 +8,7 @@
 
 namespace Ps\PdfBundle\Twig\Extensions\Extension;
 
-use Ps\PdfBundle\Templating\ImageLocator;
+use Ps\PdfBundle\Templating\ImageLocatorInterface;
 
 /**
  * Twig extension
@@ -19,7 +19,7 @@ class PdfExtension extends \Twig_Extension
 {
     private $imageLocator;
     
-    public function __construct(ImageLocator $imageLocator)
+    public function __construct(ImageLocatorInterface $imageLocator)
     {
         $this->imageLocator = $imageLocator;
     }
