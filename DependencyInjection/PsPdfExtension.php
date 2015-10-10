@@ -46,23 +46,21 @@ class PsPdfExtension extends Extension
         
         $loader->load('pdf.xml');
 
-        // ps_pdf.facade definition
         // TODO: Go back to xml configuration when bumping the requirement to Symfony >=2.6
         $facadeDefinition = $container->getDefinition('ps_pdf.facade');
-        if (method_exists($facadeDefinition, 'setFactory')) {
+        $facadeBuilderDefinition = $container->getDefinition('ps_pdf.facade_builder');
+
+        if(method_exists('Symfony\\Component\\DependencyInjection\\Definition', 'setFactory'))
+        {
             $facadeDefinition->setFactory(array(new Reference('ps_pdf.facade_builder'), 'build'));
-        } else {
+            $facadeBuilderDefinition->setFactory(array('PHPPdf\\Core\\FacadeBuilder', 'create'));
+        }
+        else
+        {
             $facadeDefinition->setFactoryService('ps_pdf.facade_builder');
             $facadeDefinition->setFactoryMethod('build');
-        }
 
-        // ps_pdf.facade_builder definition
-        // TODO: Go back to xml configuration when bumping the requirement to Symfony >=2.6
-        $facadeBuilderDefinition = $container->getDefinition('ps_pdf.facade_builder');
-        if (method_exists($facadeBuilderDefinition, 'setFactory')) {
-            $facadeBuilderDefinition->setFactory(array('PHPPdf\Core\FacadeBuilder', 'create'));
-        } else {
-            $facadeBuilderDefinition->setFactoryClass('PHPPdf\Core\FacadeBuilder');
+            $facadeBuilderDefinition->setFactoryClass('PHPPdf\\Core\\FacadeBuilder');
             $facadeBuilderDefinition->setFactoryMethod('create');
         }
     }
