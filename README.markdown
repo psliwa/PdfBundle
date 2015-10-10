@@ -10,14 +10,9 @@ Documentation of [PHPPdf][1] you can find on github (README file).
 Installation
 ------------
 
-  1. Use composer. PsPdfBundle requires "minimum-stability" equals to dev. Modify composer.json:
+  1. Use composer. PsPdfBundle requires "minimum-stability" equals to dev. Run this command:
 
-        "require": {
-          ...
-          "psliwa/pdf-bundle": "~1.0"
-        }, 
-        
-  run `composer update psliwa/pdf-bundle` to install the bundle
+        composer require psliwa/pdf-bundle
 
   2. Register bundle in AppKernel:
 
