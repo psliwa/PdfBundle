@@ -1,23 +1,23 @@
 _pdf_index:
-  pattern: /
+  path: /
   defaults: { _controller: PsPdfBundle:Example:index }
 
 _pdf_using_facade_directly:
-  pattern: /manually
+  path: /manually
   defaults: { _controller: PsPdfBundle:Example:usingFacadeDirectly }
   
 _pdf_using_automatic_format_detection:
-  pattern: /auto/{name}.{_format}
+  path: /auto/{name}.{_format}
   defaults: { _controller: PsPdfBundle:Example:usingAutomaticFormatGuessing, _format: html }
   requirements:
     _format: html|pdf
     
 _pdf_examples:
-  pattern: /examples
+  path: /examples
   defaults: { _controller: PsPdfBundle:Example:examples }
   
 _pdf_markdown:
-  pattern: /markdown
+  path: /markdown
   defaults: { _controller: PsPdfBundle:Example:markdown, _format: pdf }
   requirements:
     _format: pdf
