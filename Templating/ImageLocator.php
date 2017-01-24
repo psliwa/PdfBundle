@@ -51,4 +51,6 @@ class ImageLocator implements ImageLocatorInterface
         $bundlePath = $bundle->getPath();
         
         return $bundlePath.'/Resources/public/'.(!$exists ? 'img/' : 'images/') .$imageName;
+        
+    }
 }
