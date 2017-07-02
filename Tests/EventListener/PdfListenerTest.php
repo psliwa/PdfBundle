@@ -48,7 +48,7 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
                                        ->setMethods(array('getMethodAnnotations', 'getMethodAnnotation', 'getClassAnnotations', 'getClassAnnotation', 'getPropertyAnnotations', 'getPropertyAnnotation'))
                                        ->getMock();
                                        
-        $this->cache = $this->getMock('PHPPdf\Cache\Cache');
+        $this->cache = $this->getMockBuilder('PHPPdf\Cache\Cache')->getMock();
 
         $this->listener = new PdfListener($this->pdfFacadeBuilder, $this->annotationReader, $this->reflactionFactory, $this->templatingEngine, $this->cache);
         

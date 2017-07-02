@@ -11,7 +11,7 @@ class BundleBasedStringFilterTest extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
+        $this->kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\KernelInterface')->getMock();
         $this->filter = new BundleBasedStringFilter($this->kernel);
     }
     
@@ -25,7 +25,7 @@ class BundleBasedStringFilterTest extends \PHPUnit_Framework_TestCase
         {
             list($bundleName, $bundlePath) = $bundle;
             
-            $bundleMock = $this->getMock('\Symfony\Component\HttpKernel\Bundle\BundleInterface');
+            $bundleMock = $this->getMockBuilder('\Symfony\Component\HttpKernel\Bundle\BundleInterface')->getMock();
             $bundleMock->expects($this->once())
                        ->method('getPath')
                        ->will($this->returnValue($bundlePath));
