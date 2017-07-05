@@ -34,12 +34,14 @@ class ImageLocator implements ImageLocatorInterface
     public function getImagePath($logicalImageName)
     {
         $pos = strpos($logicalImageName, ':');
+        
+        $exists = is_dir($this->kernel->getRootDir() . '/Resources/public/images/');
 
         // add support for ::$imagePath syntax as in twig
         // @see http://symfony.com/doc/current/book/page_creation.html#optional-step-3-create-the-template
         if($pos === false || $pos === 0)
         {
-            return $this->kernel->getRootDir() . '/Resources/public/images/' . ltrim($logicalImageName, ':');
+            return $this->kernel->getRootDir() . '/Resources/public/'.(!$exists ? 'img/' : 'images/') . ltrim($logicalImageName, ':');
         }
 
         $bundleName = substr($logicalImageName, 0, $pos);  
@@ -48,6 +50,7 @@ class ImageLocator implements ImageLocatorInterface
         $bundle = $this->kernel->getBundle($bundleName);
         $bundlePath = $bundle->getPath();
         
-        return $bundlePath.'/Resources/public/images/'.$imageName;
+        return $bundlePath.'/Resources/public/'.(!$exists ? 'img/' : 'images/') .$imageName;
+        
     }
 }
