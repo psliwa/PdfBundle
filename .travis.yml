@@ -1,7 +1,6 @@
 language: php
 
 php:
-  - 5.3
   - 5.4
   - 5.5
   - 5.6
@@ -10,6 +9,7 @@ php:
 
 before_install:
   - composer self-update
+  - if [ "$DEPENDENCIES" = "beta" ]; then composer config minimum-stability beta; fi;
   - if [[ "$TRAVIS_PHP_VERSION" != "hhvm" ]]; then echo "memory_limit = -1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini; fi;
   - composer require --no-update symfony/framework-bundle "$SYMFONY_VERSION"
 
@@ -25,6 +25,16 @@ env:
 
 matrix:
   include:
+    - php: 5.3
+      dist: precise
+      env: SYMFONY_VERSION=2.3.*
+    - php: 5.3
+      dist: precise
+      env: SYMFONY_VERSION=2.7.*
+    - php: 5.3
+      dist: precise
+      env: SYMFONY_VERSION=2.8.*
+
     - php: 5.5
       env: SYMFONY_VERSION=3.0.*
     - php: 5.6
@@ -46,6 +56,11 @@ matrix:
 
     - php: 7.1
       env: SYMFONY_VERSION=3.3.*
+
+    - php: 7.1
+      env:
+        - DEPENDENCIES=beta
+        - SYMFONY_VERSION=4.0.*
 
 sudo: false
 
