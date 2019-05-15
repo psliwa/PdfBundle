@@ -1,11 +1,12 @@
 <?php
 
-namespace Ps\PdfBundle\Test\Annotation;
+namespace Ps\PdfBundle\Tests\Annotation;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use PHPUnit\Framework\TestCase;
 use Ps\PdfBundle\Annotation\Pdf;
 
-class PdfTest extends \PHPUnit_Framework_TestCase
+class PdfTest extends TestCase
 {
     /**
      * @Pdf()
@@ -15,7 +16,7 @@ class PdfTest extends \PHPUnit_Framework_TestCase
         $reader = new AnnotationReader();
         
         $method = new \ReflectionMethod($this, 'testPdfAnnotationIsCorrectlyCreatedByReader');
-        $pdf = $reader->getMethodAnnotation($method, 'Ps\PdfBundle\Annotation\Pdf');
+        $pdf = $reader->getMethodAnnotation($method, Pdf::class);
         
         $this->assertNotNull($pdf);
     }
@@ -24,39 +25,34 @@ class PdfTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider createAnnotationProvider
      */
-    public function createAnnotation(array $args, $expectedException)
+    public function createAnnotation(array $args, bool $expectedException)
     {
-        try
+        $defaultArgs = [
+            'stylesheet' => null, 
+            'documentParserType' => 'xml', 
+            'headers' => [], 
+            'enableCache' => false
+        ];
+
+        if($expectedException)
         {
-            $defaultArgs = array('stylesheet' => null, 'documentParserType' => 'xml', 'headers' => array(), 'enableCache' => false);
-            
-            $annotation = new Pdf($args);
-            
-            if($expectedException)
-            {
-                $this->fail('exception expected');
-            }
-            
-            $expectedVars = $args + $defaultArgs;
-            
-            $this->assertEquals($expectedVars, get_object_vars($annotation));
+            $this->expectException(\Exception::class);
         }
-        catch(\InvalidArgumentException $e)
-        {
-            if(!$expectedException)
-            {
-                $this->fail('unexpected exception');
-            }
-        }
+
+        $annotation = new Pdf($args);
+
+        $expectedVars = $args + $defaultArgs;
+        
+        $this->assertEquals($expectedVars, get_object_vars($annotation));
     }
     
     public function createAnnotationProvider()
     {
-        return array(
-            array(array(), false),
-            array(array('stylesheet' => 'stylesheet', 'documentParserType' => 'markdown'), false),
-            array(array('enableCache' => true, 'headers' => array('key' => 'value')), false),
-            array(array('unexistedArg' => 'value'), true),
-        );
+        return [
+            [[], false],
+            [['stylesheet' => 'stylesheet', 'documentParserType' => 'markdown'], false],
+            [['enableCache' => true, 'headers' => ['key' => 'value']], false],
+            [['unexistedArg' => 'value'], true],
+        ];
     }
 }

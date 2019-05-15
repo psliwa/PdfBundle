@@ -2,14 +2,18 @@
 
 namespace Ps\PdfBundle\Tests\DependencyInjection;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Ps\PdfBundle\DependencyInjection\PsPdfExtension;
+use PHPPdf\Core\Facade;
+use PHPPdf\Core\FacadeBuilder;
+use PHPPdf\Cache\Cache;
 
-class PsPdfExtensionTest extends \PHPUnit_Framework_TestCase
+class PsPdfExtensionTest extends TestCase
 {
     private $extension;
     
-    public function setUp()
+    protected function setUp(): void
     {
         $this->extension = new PsPdfExtension();
     }
@@ -27,7 +31,7 @@ class PsPdfExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($container->has('ps_pdf.facade'));
         $facade = $container->get('ps_pdf.facade');
         
-        $this->assertInstanceOf('PHPPdf\Core\Facade', $facade);
+        $this->assertInstanceOf(Facade::class, $facade);
     }
     
     /**
@@ -43,7 +47,7 @@ class PsPdfExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($container->has('ps_pdf.facade_builder'));
         $builder = $container->get('ps_pdf.facade_builder');
         
-        $this->assertInstanceOf('PHPPdf\Core\FacadeBuilder', $builder);
+        $this->assertInstanceOf(FacadeBuilder::class, $builder);
     }
     
     /**
@@ -59,7 +63,7 @@ class PsPdfExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($container->has('ps_pdf.cache'));
         $cache = $container->get('ps_pdf.cache');
         
-        $this->assertInstanceOf('PHPPdf\Cache\Cache', $cache);
+        $this->assertInstanceOf(Cache::class, $cache);
     }
    
     /**

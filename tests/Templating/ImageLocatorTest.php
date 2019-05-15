@@ -2,16 +2,19 @@
 
 namespace Ps\PdfBundle\Tests\Templating;
 
+use PHPUnit\Framework\TestCase;
 use Ps\PdfBundle\Templating\ImageLocator;
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class ImageLocatorTest extends \PHPUnit_Framework_TestCase
+class ImageLocatorTest extends TestCase
 {
     private $kernel;
     private $locator;
     
-    protected function setup()
+    protected function setup(): void
     {
-        $this->kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\Kernel')
+        $this->kernel = $this->getMockBuilder(Kernel::class)
                              ->setMethods(array('getBundle', 'registerBundles', 'registerContainerConfiguration', 'getRootDir'))
                              ->disableOriginalConstructor()
                              ->getMock();
@@ -25,7 +28,7 @@ class ImageLocatorTest extends \PHPUnit_Framework_TestCase
      */
     public function getImagePathSuccessfullyWhenBundleExists($bundleName, $imageName)
     {
-        $bundle = $this->getMockBuilder('Symfony\Component\HttpKernel\Bundle\Bundle')
+        $bundle = $this->getMockBuilder(Bundle::class)
                        ->setMethods(array('getPath'))
                        ->disableOriginalConstructor()
                        ->getMock();
@@ -57,14 +60,15 @@ class ImageLocatorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException InvalidArgumentException
      */
     public function throwExceptionIfBundleDoesNotExist()
     {
         $this->kernel->expects($this->once())
                      ->method('getBundle')
                      ->will($this->throwException(new \InvalidArgumentException()));
-                     
+
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->locator->getImagePath('unexistedBundle:someImage.jpg');
     }
    
