@@ -19,7 +19,7 @@ before_install:
 install:
   - composer install --prefer-dist --no-interaction
 
-script: vendor/bin/phpunit --configuration Tests/phpunit.xml
+script: vendor/bin/phpunit
 
 jobs:
   include:
