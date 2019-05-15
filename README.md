@@ -1,7 +1,8 @@
 PsPdfBundle
 ===========
 
-[![Build Status](https://travis-ci.org/facile-it/PdfBundle.svg?branch=master)](https://travis-ci.org/facile-it/PdfBundle)
+[![Build Status](https://travis-ci.org/facile-it/PdfBundle.svg?branch=symfony4)](https://travis-ci.org/facile-it/PdfBundle)
+[![Coverage Status](https://coveralls.io/repos/github/facile-it/PdfBundle/badge.svg?branch=symfony4)](https://coveralls.io/github/facile-it/PdfBundle?branch=symfony4)
 
 This bundle is a fork of [psliwa/PdfBundle](https://github.com/psliwa/PdfBundle); this branch (`symfony4`) aims at updating all the dependencies of this bundle to make it work with Symfony 4 and Symfony Flex. To check on what has been done, look at [the relative milestone](https://github.com/facile-it/PdfBundle/milestone/1).
 
