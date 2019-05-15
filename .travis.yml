@@ -10,6 +10,9 @@ php:
   - 7.2
   - 7.1
 
+env:
+  - COMPOSER_MEMORY_LIMIT=-1
+
 before_install:
   - composer self-update
 
