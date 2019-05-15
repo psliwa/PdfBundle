@@ -60,14 +60,15 @@ class ImageLocatorTest extends TestCase
 
     /**
      * @test
-     * @expectedException InvalidArgumentException
      */
     public function throwExceptionIfBundleDoesNotExist()
     {
         $this->kernel->expects($this->once())
                      ->method('getBundle')
                      ->will($this->throwException(new \InvalidArgumentException()));
-                     
+
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->locator->getImagePath('unexistedBundle:someImage.jpg');
     }
    

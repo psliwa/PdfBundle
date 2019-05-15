@@ -25,39 +25,34 @@ class PdfTest extends TestCase
      * @test
      * @dataProvider createAnnotationProvider
      */
-    public function createAnnotation(array $args, $expectedException)
+    public function createAnnotation(array $args, bool $expectedException)
     {
-        try
+        $defaultArgs = [
+            'stylesheet' => null, 
+            'documentParserType' => 'xml', 
+            'headers' => [], 
+            'enableCache' => false
+        ];
+
+        if($expectedException)
         {
-            $defaultArgs = array('stylesheet' => null, 'documentParserType' => 'xml', 'headers' => array(), 'enableCache' => false);
-            
-            $annotation = new Pdf($args);
-            
-            if($expectedException)
-            {
-                $this->fail('exception expected');
-            }
-            
-            $expectedVars = $args + $defaultArgs;
-            
-            $this->assertEquals($expectedVars, get_object_vars($annotation));
+            $this->expectException(\Exception::class);
         }
-        catch(\InvalidArgumentException $e)
-        {
-            if(!$expectedException)
-            {
-                $this->fail('unexpected exception');
-            }
-        }
+
+        $annotation = new Pdf($args);
+
+        $expectedVars = $args + $defaultArgs;
+        
+        $this->assertEquals($expectedVars, get_object_vars($annotation));
     }
     
     public function createAnnotationProvider()
     {
-        return array(
-            array(array(), false),
-            array(array('stylesheet' => 'stylesheet', 'documentParserType' => 'markdown'), false),
-            array(array('enableCache' => true, 'headers' => array('key' => 'value')), false),
-            array(array('unexistedArg' => 'value'), true),
-        );
+        return [
+            [[], false],
+            [['stylesheet' => 'stylesheet', 'documentParserType' => 'markdown'], false],
+            [['enableCache' => true, 'headers' => ['key' => 'value']], false],
+            [['unexistedArg' => 'value'], true],
+        ];
     }
 }
