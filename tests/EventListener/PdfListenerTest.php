@@ -1,9 +1,10 @@
 <?php
 
-namespace Ps\PdfBundle\Test\EventListener;
+namespace Ps\PdfBundle\Tests\EventListener;
 
 use PHPPdf\Parser\Exception\ParseException;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
@@ -12,7 +13,7 @@ use Ps\PdfBundle\Annotation\Pdf;
 use Symfony\Component\Config\FileLocator;
 use Ps\PdfBundle\EventListener\PdfListener;
 
-class PdfListenerTest extends \PHPUnit_Framework_TestCase
+class PdfListenerTest extends TestCase
 {
     private $pdfFacadeBuilder;
     private $pdfFacade;
@@ -25,7 +26,7 @@ class PdfListenerTest extends \PHPUnit_Framework_TestCase
     private $templatingEngine;
     private $cache;
     
-    public function setUp()
+    protected function setUp(): void
     {
         $this->pdfFacadeBuilder = $this->getMockBuilder('PHPPdf\Core\FacadeBuilder')
                                        ->disableOriginalConstructor()

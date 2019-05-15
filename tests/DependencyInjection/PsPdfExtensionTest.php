@@ -2,14 +2,15 @@
 
 namespace Ps\PdfBundle\Tests\DependencyInjection;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Ps\PdfBundle\DependencyInjection\PsPdfExtension;
 
-class PsPdfExtensionTest extends \PHPUnit_Framework_TestCase
+class PsPdfExtensionTest extends TestCase
 {
     private $extension;
     
-    public function setUp()
+    protected function setUp(): void
     {
         $this->extension = new PsPdfExtension();
     }

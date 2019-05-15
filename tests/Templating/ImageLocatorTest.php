@@ -2,14 +2,15 @@
 
 namespace Ps\PdfBundle\Tests\Templating;
 
+use PHPUnit\Framework\TestCase;
 use Ps\PdfBundle\Templating\ImageLocator;
 
-class ImageLocatorTest extends \PHPUnit_Framework_TestCase
+class ImageLocatorTest extends TestCase
 {
     private $kernel;
     private $locator;
     
-    protected function setup()
+    protected function setup(): void
     {
         $this->kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\Kernel')
                              ->setMethods(array('getBundle', 'registerBundles', 'registerContainerConfiguration', 'getRootDir'))

@@ -2,14 +2,15 @@
 
 namespace Ps\PdfBundle\Tests\PHPPdf\Util;
 
+use PHPUnit\Framework\TestCase;
 use Ps\PdfBundle\PHPPdf\Util\BundleBasedStringFilter;
 
-class BundleBasedStringFilterTest extends \PHPUnit_Framework_TestCase
+class BundleBasedStringFilterTest extends TestCase
 {
     private $filter;
     private $kernel;
     
-    public function setUp()
+    protected function setUp(): void
     {
         $this->kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\KernelInterface')->getMock();
         $this->filter = new BundleBasedStringFilter($this->kernel);

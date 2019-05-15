@@ -1,11 +1,12 @@
 <?php
 
-namespace Ps\PdfBundle\Test\Annotation;
+namespace Ps\PdfBundle\Tests\Annotation;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use PHPUnit\Framework\TestCase;
 use Ps\PdfBundle\Annotation\Pdf;
 
-class PdfTest extends \PHPUnit_Framework_TestCase
+class PdfTest extends TestCase
 {
     /**
      * @Pdf()
