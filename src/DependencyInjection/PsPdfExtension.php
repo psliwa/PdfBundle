@@ -42,7 +42,7 @@ class PsPdfExtension extends Extension
     
     private function loadDefaults(ContainerBuilder $container)
     {
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         
         $loader->load('pdf.xml');
 
