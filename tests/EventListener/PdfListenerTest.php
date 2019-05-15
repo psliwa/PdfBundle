@@ -12,6 +12,13 @@ use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Ps\PdfBundle\Annotation\Pdf;
 use Symfony\Component\Config\FileLocator;
 use Ps\PdfBundle\EventListener\PdfListener;
+use PHPPdf\Core\FacadeBuilder;
+use PHPPdf\Core\Facade;
+use Symfony\Component\Templating\EngineInterface;
+use Ps\PdfBundle\Reflection\Factory;
+use Doctrine\Common\Annotations\Reader;
+use PHPPdf\Cache\Cache;
+use Symfony\Component\HttpFoundation\Request;
 
 class PdfListenerTest extends TestCase
 {
@@ -28,32 +35,32 @@ class PdfListenerTest extends TestCase
     
     protected function setUp(): void
     {
-        $this->pdfFacadeBuilder = $this->getMockBuilder('PHPPdf\Core\FacadeBuilder')
+        $this->pdfFacadeBuilder = $this->getMockBuilder(FacadeBuilder::class)
                                        ->disableOriginalConstructor()
                                        ->setMethods(array('build', 'setDocumentParserType'))
                                        ->getMock();
         
-        $this->pdfFacade = $this->getMockBuilder('PHPPdf\Core\Facade')
+        $this->pdfFacade = $this->getMockBuilder(Facade::class)
                                 ->disableOriginalConstructor()
                                 ->setMethods(array('render'))
                                 ->getMock();
                                 
-        $this->templatingEngine = $this->getMockBuilder('Symfony\Component\Templating\EngineInterface')
+        $this->templatingEngine = $this->getMockBuilder(EngineInterface::class)
                                        ->setMethods(array('render', 'supports', 'exists'))
                                        ->getMock();
         
-        $this->reflactionFactory = $this->getMockBuilder('Ps\PdfBundle\Reflection\Factory')
+        $this->reflactionFactory = $this->getMockBuilder(Factory::class)
                                         ->setMethods(array('createMethod'))
                                         ->getMock();
-        $this->annotationReader = $this->getMockBuilder('Doctrine\Common\Annotations\Reader')
+        $this->annotationReader = $this->getMockBuilder(Reader::class)
                                        ->setMethods(array('getMethodAnnotations', 'getMethodAnnotation', 'getClassAnnotations', 'getClassAnnotation', 'getPropertyAnnotations', 'getPropertyAnnotation'))
                                        ->getMock();
                                        
-        $this->cache = $this->getMockBuilder('PHPPdf\Cache\Cache')->getMock();
+        $this->cache = $this->getMockBuilder(Cache::class)->getMock();
 
         $this->listener = new PdfListener($this->pdfFacadeBuilder, $this->annotationReader, $this->reflactionFactory, $this->templatingEngine, $this->cache);
         
-        $this->request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
+        $this->request = $this->getMockBuilder(Request::class)
                               ->setMethods(array('get'))
                               ->getMock();
         $this->requestAttributes = $this->getMockBuilder('stdClass')
@@ -62,7 +69,7 @@ class PdfListenerTest extends TestCase
                                         
         $this->request->attributes = $this->requestAttributes;
         
-        $this->controllerEvent = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\FilterControllerEvent')
+        $this->controllerEvent = $this->getMockBuilder(FilterControllerEvent::class)
                             ->setMethods(array('setController', 'getController', 'getRequest'))
                             ->disableOriginalConstructor()
                             ->getMock();

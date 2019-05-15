@@ -4,6 +4,8 @@ namespace Ps\PdfBundle\Tests\PHPPdf\Util;
 
 use PHPUnit\Framework\TestCase;
 use Ps\PdfBundle\PHPPdf\Util\BundleBasedStringFilter;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class BundleBasedStringFilterTest extends TestCase
 {
@@ -12,7 +14,7 @@ class BundleBasedStringFilterTest extends TestCase
     
     protected function setUp(): void
     {
-        $this->kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\KernelInterface')->getMock();
+        $this->kernel = $this->getMockBuilder(KernelInterface::class)->getMock();
         $this->filter = new BundleBasedStringFilter($this->kernel);
     }
     
@@ -26,7 +28,7 @@ class BundleBasedStringFilterTest extends TestCase
         {
             list($bundleName, $bundlePath) = $bundle;
             
-            $bundleMock = $this->getMockBuilder('\Symfony\Component\HttpKernel\Bundle\BundleInterface')->getMock();
+            $bundleMock = $this->getMockBuilder(BundleInterface::class)->getMock();
             $bundleMock->expects($this->once())
                        ->method('getPath')
                        ->will($this->returnValue($bundlePath));

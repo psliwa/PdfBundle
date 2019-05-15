@@ -16,7 +16,7 @@ class PdfTest extends TestCase
         $reader = new AnnotationReader();
         
         $method = new \ReflectionMethod($this, 'testPdfAnnotationIsCorrectlyCreatedByReader');
-        $pdf = $reader->getMethodAnnotation($method, 'Ps\PdfBundle\Annotation\Pdf');
+        $pdf = $reader->getMethodAnnotation($method, Pdf::class);
         
         $this->assertNotNull($pdf);
     }

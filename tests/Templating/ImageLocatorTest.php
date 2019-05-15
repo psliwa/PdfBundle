@@ -4,6 +4,8 @@ namespace Ps\PdfBundle\Tests\Templating;
 
 use PHPUnit\Framework\TestCase;
 use Ps\PdfBundle\Templating\ImageLocator;
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class ImageLocatorTest extends TestCase
 {
@@ -12,7 +14,7 @@ class ImageLocatorTest extends TestCase
     
     protected function setup(): void
     {
-        $this->kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\Kernel')
+        $this->kernel = $this->getMockBuilder(Kernel::class)
                              ->setMethods(array('getBundle', 'registerBundles', 'registerContainerConfiguration', 'getRootDir'))
                              ->disableOriginalConstructor()
                              ->getMock();
@@ -26,7 +28,7 @@ class ImageLocatorTest extends TestCase
      */
     public function getImagePathSuccessfullyWhenBundleExists($bundleName, $imageName)
     {
-        $bundle = $this->getMockBuilder('Symfony\Component\HttpKernel\Bundle\Bundle')
+        $bundle = $this->getMockBuilder(Bundle::class)
                        ->setMethods(array('getPath'))
                        ->disableOriginalConstructor()
                        ->getMock();
