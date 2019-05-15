@@ -74,6 +74,8 @@ class ImageLocatorTest extends TestCase
    
     /**
      * @test
+     * @group legacy
+     * @expectedDeprecation The Symfony\Component\HttpKernel\Kernel::getRootDir method is deprecated (since Symfony 4.2, use getProjectDir() instead).
      */
     public function getImagePathFromGlobalResourcesWhenBundleNameIsEmpty()
     {
