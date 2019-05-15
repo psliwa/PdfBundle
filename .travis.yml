@@ -12,7 +12,6 @@ php:
 
 before_install:
   - composer self-update
-  - composer require --no-update symfony/framework-bundle "$SYMFONY_VERSION"
 
 install:
   - composer install --prefer-dist --no-interaction --prefer-stable
