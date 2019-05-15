@@ -19,11 +19,6 @@ install:
 
 script: vendor/bin/phpunit --configuration Tests/phpunit.xml
 
-env:
-  - SYMFONY_VERSION=2.3.*
-  - SYMFONY_VERSION=2.7.*
-  - SYMFONY_VERSION=2.8.*
-
 jobs:
   include:
     - stage: Test
