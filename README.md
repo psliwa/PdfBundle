@@ -1,30 +1,34 @@
 PsPdfBundle
 ===========
 
-[![Build Status](https://secure.travis-ci.org/psliwa/PdfBundle.png?branch=master)](http://travis-ci.org/psliwa/PdfBundle)
+[![Build Status](https://travis-ci.org/facile-it/PdfBundle.svg?branch=master)](https://travis-ci.org/facile-it/PdfBundle)
 
-This bundle integrates Symfony2 with [PHPPdf][1] library. Thanks to this bundle you can easily generate PDF or image (png, jpg) files.
+This bundle is a fork of [psliwa/PdfBundle](https://github.com/psliwa/PdfBundle); this branch (`symfony4`) aims at updating all the dependencies of this bundle to make it work with Symfony 4 and Symfony Flex. To check on what has been done, look at [the relative milestone](https://github.com/facile-it/PdfBundle/milestone/1).
+
+This bundle integrates Symfony (3.4/4.x) with [PHPPdf][1] library. Thanks to this bundle you can easily generate PDF or image (png, jpg) files.
 
 Documentation of [PHPPdf][1] you can find on github (README file).
 
 Installation
 ------------
+1. Use composer
+```bash
+composer require psliwa/pdf-bundle
+```
 
-  1. Use composer. PsPdfBundle requires "minimum-stability" equals to dev. Run this command:
+2. Register bundle in AppKernel:
 
-        composer require psliwa/pdf-bundle
-
-  2. Register bundle in AppKernel:
-
-          //app/AppKernel.php
-          public function registerBundles()
-          {
-              return array(
-                  // ..
-                  new Ps\PdfBundle\PsPdfBundle(),
-                  // ..
-              );
-          }
+```php
+//app/AppKernel.php
+public function registerBundles()
+{
+    return [
+        // ..
+        new Ps\PdfBundle\PsPdfBundle(),
+        // ..
+    ];
+}
+```
 
 Configuration
 -------------
