@@ -29,8 +29,12 @@ jobs:
       env:
         - SYMFONY_DEPRECATIONS_HELPER=disabled
       install:
+        - composer remove --dev friendsofphp/php-cs-fixer --no-update
         - composer update --no-interaction --prefer-dist --prefer-stable --prefer-lowest
-    - stage: Test coverage
+    - stage: Additional checks
+      name: Test coverage
       script: phpdbg -qrr vendor/bin/phpunit --coverage-clover ./build/logs/clover.xml --coverage-text
       after_success:
         - php vendor/bin/php-coveralls -v
+    - name: Code style
+      script: vendor/bin/php-cs-fixer fix --verbose --dry-run
