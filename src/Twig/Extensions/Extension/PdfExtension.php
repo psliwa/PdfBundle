@@ -26,9 +26,9 @@ class PdfExtension extends \Twig_Extension
 
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('pdf_image', array($this, 'getImagePath')),
-        );
+        return [
+            new \Twig_SimpleFunction('pdf_image', [$this, 'getImagePath']),
+        ];
     }
 
     public function getName()

@@ -4,8 +4,8 @@ namespace Ps\PdfBundle\Tests\PHPPdf\Util;
 
 use PHPUnit\Framework\TestCase;
 use Ps\PdfBundle\PHPPdf\Util\BundleBasedStringFilter;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class BundleBasedStringFilterTest extends TestCase
 {
@@ -45,15 +45,15 @@ class BundleBasedStringFilterTest extends TestCase
 
     public function replaceBundleVariablesProvider()
     {
-        return array(
-            array('some text', 'some text', array()),
-            array('text text %SomeBundle:file.xml% text text', 'text text path/Resources/file.xml text text', array(
-                array('SomeBundle', 'path'),
-            )),
-            array('text text %SomeBundle:file1.xml% text %SomeBundle:file2.xml% text', 'text text path/Resources/file1.xml text path/Resources/file2.xml text', array(
-                array('SomeBundle', 'path'),
-                array('SomeBundle', 'path'),
-            )),
-        );
+        return [
+            ['some text', 'some text', []],
+            ['text text %SomeBundle:file.xml% text text', 'text text path/Resources/file.xml text text', [
+                ['SomeBundle', 'path'],
+            ]],
+            ['text text %SomeBundle:file1.xml% text %SomeBundle:file2.xml% text', 'text text path/Resources/file1.xml text path/Resources/file2.xml text', [
+                ['SomeBundle', 'path'],
+                ['SomeBundle', 'path'],
+            ]],
+        ];
     }
 }

@@ -8,16 +8,16 @@
 
 namespace Ps\PdfBundle\EventListener;
 
+use Doctrine\Common\Annotations\Reader;
 use PHPPdf\Cache\Cache;
-use Ps\PdfBundle\Annotation\Pdf as PdfAnnotation;
-use Symfony\Component\HttpFoundation\Request;
 use PHPPdf\Core\FacadeBuilder;
-use Symfony\Component\Templating\EngineInterface;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Ps\PdfBundle\Annotation\Pdf as PdfAnnotation;
+use Ps\PdfBundle\Reflection\Factory;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
-use Ps\PdfBundle\Reflection\Factory;
-use Doctrine\Common\Annotations\Reader;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\Templating\EngineInterface;
 
 /**
  * This listener will replace reponse content by pdf document's content if Pdf annotations is found.

@@ -29,7 +29,7 @@ class Configuration implements ConfigurationInterface
                     ->arrayNode('cache')
                       ->children()
                         ->variableNode('options')
-                          ->defaultValue(array())
+                          ->defaultValue([])
                         ->end()
                         ->scalarNode('type')
                           ->defaultValue('File')

@@ -2,21 +2,21 @@
 
 namespace Ps\PdfBundle\Tests\EventListener;
 
-use PHPPdf\Parser\Exception\ParseException;
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
-use Ps\PdfBundle\Annotation\Pdf;
-use Symfony\Component\Config\FileLocator;
-use Ps\PdfBundle\EventListener\PdfListener;
-use PHPPdf\Core\FacadeBuilder;
-use PHPPdf\Core\Facade;
-use Symfony\Component\Templating\EngineInterface;
-use Ps\PdfBundle\Reflection\Factory;
 use Doctrine\Common\Annotations\Reader;
 use PHPPdf\Cache\Cache;
+use PHPPdf\Core\Facade;
+use PHPPdf\Core\FacadeBuilder;
+use PHPPdf\Parser\Exception\ParseException;
+use PHPUnit\Framework\TestCase;
+use Ps\PdfBundle\Annotation\Pdf;
+use Ps\PdfBundle\EventListener\PdfListener;
+use Ps\PdfBundle\Reflection\Factory;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\Templating\EngineInterface;
 
 class PdfListenerTest extends TestCase
 {
@@ -35,23 +35,23 @@ class PdfListenerTest extends TestCase
     {
         $this->pdfFacadeBuilder = $this->getMockBuilder(FacadeBuilder::class)
                                        ->disableOriginalConstructor()
-                                       ->setMethods(array('build', 'setDocumentParserType'))
+                                       ->setMethods(['build', 'setDocumentParserType'])
                                        ->getMock();
 
         $this->pdfFacade = $this->getMockBuilder(Facade::class)
                                 ->disableOriginalConstructor()
-                                ->setMethods(array('render'))
+                                ->setMethods(['render'])
                                 ->getMock();
 
         $this->templatingEngine = $this->getMockBuilder(EngineInterface::class)
-                                       ->setMethods(array('render', 'supports', 'exists'))
+                                       ->setMethods(['render', 'supports', 'exists'])
                                        ->getMock();
 
         $this->reflactionFactory = $this->getMockBuilder(Factory::class)
-                                        ->setMethods(array('createMethod'))
+                                        ->setMethods(['createMethod'])
                                         ->getMock();
         $this->annotationReader = $this->getMockBuilder(Reader::class)
-                                       ->setMethods(array('getMethodAnnotations', 'getMethodAnnotation', 'getClassAnnotations', 'getClassAnnotation', 'getPropertyAnnotations', 'getPropertyAnnotation'))
+                                       ->setMethods(['getMethodAnnotations', 'getMethodAnnotation', 'getClassAnnotations', 'getClassAnnotation', 'getPropertyAnnotations', 'getPropertyAnnotation'])
                                        ->getMock();
 
         $this->cache = $this->getMockBuilder(Cache::class)->getMock();
@@ -59,16 +59,16 @@ class PdfListenerTest extends TestCase
         $this->listener = new PdfListener($this->pdfFacadeBuilder, $this->annotationReader, $this->reflactionFactory, $this->templatingEngine, $this->cache);
 
         $this->request = $this->getMockBuilder(Request::class)
-                              ->setMethods(array('get'))
+                              ->setMethods(['get'])
                               ->getMock();
         $this->requestAttributes = $this->getMockBuilder('stdClass')
-                                        ->setMethods(array('set', 'get'))
+                                        ->setMethods(['set', 'get'])
                                         ->getMock();
 
         $this->request->attributes = $this->requestAttributes;
 
         $this->controllerEvent = $this->getMockBuilder(FilterControllerEvent::class)
-                            ->setMethods(array('setController', 'getController', 'getRequest'))
+                            ->setMethods(['setController', 'getController', 'getRequest'])
                             ->disableOriginalConstructor()
                             ->getMock();
 
@@ -84,7 +84,7 @@ class PdfListenerTest extends TestCase
     public function setAnnotationObjectToRequestIfRequestFormatIsPdfAndAnnotationExists($annotation, $format, $shouldControllerBeenSet)
     {
         $objectStub = new FileLocator();
-        $controllerStub = array($objectStub, 'locate');
+        $controllerStub = [$objectStub, 'locate'];
         $methodStub = new \ReflectionMethod($controllerStub[0], $controllerStub[1]);
 
         $this->request->expects($this->once())
@@ -128,13 +128,13 @@ class PdfListenerTest extends TestCase
 
     public function annotationProvider()
     {
-        $annotation = new Pdf(array());
+        $annotation = new Pdf([]);
 
-        return array(
-            array($annotation, 'pdf', true),
-            array(null, 'pdf', false),
-            array($annotation, 'html', false),
-        );
+        return [
+            [$annotation, 'pdf', true],
+            [null, 'pdf', false],
+            [$annotation, 'html', false],
+        ];
     }
 
     /**
@@ -142,7 +142,7 @@ class PdfListenerTest extends TestCase
      */
     public function donotInvokePdfRenderingOnViewEventWhenResponseStatusIsError()
     {
-        $annotation = new Pdf(array());
+        $annotation = new Pdf([]);
         $this->requestAttributes->expects($this->once())
                                 ->method('get')
                                 ->with('_pdf')
@@ -164,7 +164,7 @@ class PdfListenerTest extends TestCase
      */
     public function invokePdfRenderingOnViewEvent($enableCache, $freshCache)
     {
-        $annotation = new Pdf(array('enableCache' => $enableCache));
+        $annotation = new Pdf(['enableCache' => $enableCache]);
         $this->requestAttributes->expects($this->once())
                                 ->method('get')
                                 ->with('_pdf')
@@ -202,7 +202,7 @@ class PdfListenerTest extends TestCase
                             ->with($contentStub, $cacheKey);
             }
         } else {
-            foreach (array('test', 'load', 'save') as $method) {
+            foreach (['test', 'load', 'save'] as $method) {
                 $this->cache->expects($this->never())
                             ->method($method);
             }
@@ -226,11 +226,11 @@ class PdfListenerTest extends TestCase
 
     public function booleanPairProvider()
     {
-        return array(
-            array(false, false),
-            array(true, true),
-            array(true, false),
-        );
+        return [
+            [false, false],
+            [true, true],
+            [true, false],
+        ];
     }
 
     private function expectPdfFacadeBuilding(Pdf $annotation)
@@ -249,7 +249,7 @@ class PdfListenerTest extends TestCase
      */
     public function setResponseContentTypeAndRequestFormatOnException()
     {
-        $annotation = new Pdf(array('enableCache' => false));
+        $annotation = new Pdf(['enableCache' => false]);
         $this->requestAttributes->expects($this->once())
                                 ->method('get')
                                 ->with('_pdf')
@@ -282,7 +282,7 @@ class PdfListenerTest extends TestCase
     {
         $stylesheetPath = 'some path';
 
-        $annotation = new Pdf(array('stylesheet' => $stylesheetPath, 'enableCache' => false));
+        $annotation = new Pdf(['stylesheet' => $stylesheetPath, 'enableCache' => false]);
         $this->requestAttributes->expects($this->once())
                                 ->method('get')
                                 ->with('_pdf')
@@ -323,7 +323,7 @@ class PdfListenerTest extends TestCase
 
         $this->controllerEvent->expects($this->once())
                     ->method('getController')
-                    ->will($this->returnValue(array()));
+                    ->will($this->returnValue([]));
 
         $this->reflactionFactory->expects($this->never())
                                 ->method('createMethod');

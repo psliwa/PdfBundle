@@ -4,8 +4,8 @@ namespace Ps\PdfBundle\Tests\Templating;
 
 use PHPUnit\Framework\TestCase;
 use Ps\PdfBundle\Templating\ImageLocator;
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\HttpKernel\Kernel;
 
 class ImageLocatorTest extends TestCase
 {
@@ -14,7 +14,7 @@ class ImageLocatorTest extends TestCase
     protected function setup(): void
     {
         $this->kernel = $this->getMockBuilder(Kernel::class)
-                             ->setMethods(array('getBundle', 'registerBundles', 'registerContainerConfiguration', 'getRootDir'))
+                             ->setMethods(['getBundle', 'registerBundles', 'registerContainerConfiguration', 'getRootDir'])
                              ->disableOriginalConstructor()
                              ->getMock();
     }
@@ -26,7 +26,7 @@ class ImageLocatorTest extends TestCase
     public function getImagePathSuccessfullyWhenBundleExists($bundleName, $imageName): void
     {
         $bundle = $this->getMockBuilder(Bundle::class)
-                       ->setMethods(array('getPath'))
+                       ->setMethods(['getPath'])
                        ->disableOriginalConstructor()
                        ->getMock();
 
@@ -81,7 +81,7 @@ class ImageLocatorTest extends TestCase
         $r = new \ReflectionObject($this->kernel);
         $rootDir = \dirname($r->getFileName());
         $imageName = 'some/image/name.jpg';
-        $prefixes = array('', ':', '::');
+        $prefixes = ['', ':', '::'];
 
         $this->kernel->expects($this->atMost(1))
                      ->method('getRootDir')

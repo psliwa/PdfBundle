@@ -8,8 +8,8 @@
 
 namespace Ps\PdfBundle\PHPPdf\Util;
 
-use Symfony\Component\HttpKernel\KernelInterface;
 use PHPPdf\Util\StringFilter;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * Class that provides support for bundle based path translations.
@@ -35,8 +35,8 @@ class BundleBasedStringFilter implements StringFilter
         }
 
         if (preg_match_all('/\%(.+Bundle):(.+)\%/U', $value, $matches)) {
-            $searches = array();
-            $replacements = array();
+            $searches = [];
+            $replacements = [];
             foreach ($matches[1] as $index => $bundleName) {
                 $bundle = $this->kernel->getBundle($bundleName);
                 $path = $bundle->getPath();

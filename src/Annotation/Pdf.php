@@ -21,7 +21,7 @@ class Pdf
 {
     public $stylesheet;
     public $documentParserType = 'xml';
-    public $headers = array();
+    public $headers = [];
     public $enableCache = false;
 
     public function __construct(array $values)

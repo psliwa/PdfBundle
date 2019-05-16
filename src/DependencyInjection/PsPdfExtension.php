@@ -10,10 +10,10 @@ namespace Ps\PdfBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Extenstion class.
@@ -50,8 +50,8 @@ class PsPdfExtension extends Extension
         $facadeBuilderDefinition = $container->getDefinition('ps_pdf.facade_builder');
 
         if (method_exists('Symfony\\Component\\DependencyInjection\\Definition', 'setFactory')) {
-            $facadeDefinition->setFactory(array(new Reference('ps_pdf.facade_builder'), 'build'));
-            $facadeBuilderDefinition->setFactory(array('PHPPdf\\Core\\FacadeBuilder', 'create'));
+            $facadeDefinition->setFactory([new Reference('ps_pdf.facade_builder'), 'build']);
+            $facadeBuilderDefinition->setFactory(['PHPPdf\\Core\\FacadeBuilder', 'create']);
         } else {
             $facadeDefinition->setFactoryService('ps_pdf.facade_builder');
             $facadeDefinition->setFactoryMethod('build');
@@ -63,10 +63,10 @@ class PsPdfExtension extends Extension
 
     private function setConfigIntoContainer(ContainerBuilder $container, array $config)
     {
-        $this->setGenericConfig($container, $config, 'ps_pdf.%s', array('nodes_file', 'fonts_file', 'complex_attributes_file', 'colors_file', 'use_cache_in_stylesheet', 'markdown_stylesheet_filepath', 'markdown_document_template_filepath', 'document_parser_type'));
+        $this->setGenericConfig($container, $config, 'ps_pdf.%s', ['nodes_file', 'fonts_file', 'complex_attributes_file', 'colors_file', 'use_cache_in_stylesheet', 'markdown_stylesheet_filepath', 'markdown_document_template_filepath', 'document_parser_type']);
 
         if (isset($config['cache'])) {
-            $this->setGenericConfig($container, $config['cache'], 'ps_pdf.cache.%s', array('type', 'options'));
+            $this->setGenericConfig($container, $config['cache'], 'ps_pdf.cache.%s', ['type', 'options']);
         }
     }
 

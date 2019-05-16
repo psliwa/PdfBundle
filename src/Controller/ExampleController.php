@@ -8,10 +8,10 @@
 
 namespace Ps\PdfBundle\Controller;
 
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Ps\PdfBundle\Annotation\Pdf;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Controller with examples.
@@ -29,13 +29,13 @@ class ExampleController extends Controller
     {
         $facade = $this->get('ps_pdf.facade');
         $response = new Response();
-        $this->render('PsPdfBundle:Example:usingFacadeDirectly.pdf.twig', array(), $response);
+        $this->render('PsPdfBundle:Example:usingFacadeDirectly.pdf.twig', [], $response);
 
         $xml = $response->getContent();
 
         $content = $facade->render($xml);
 
-        return new Response($content, 200, array('content-type' => 'application/pdf'));
+        return new Response($content, 200, ['content-type' => 'application/pdf']);
     }
 
     /**
@@ -51,9 +51,9 @@ class ExampleController extends Controller
     {
         $format = $this->get('request')->get('_format');
 
-        return $this->render(sprintf('PsPdfBundle:Example:usingAutomaticFormatGuessing.%s.twig', $format), array(
+        return $this->render(sprintf('PsPdfBundle:Example:usingAutomaticFormatGuessing.%s.twig', $format), [
             'name' => $name,
-        ));
+        ]);
     }
 
     /**
@@ -63,7 +63,7 @@ class ExampleController extends Controller
     {
         $kernelRootDir = $this->container->getParameter('kernel.root_dir');
 
-        $propablyPhpPdfExamplesFilePaths = array($kernelRootDir.'/../vendor/PHPPdf/examples/index.php', $kernelRootDir.'/../vendor/psliwa/php-pdf/examples/index.php');
+        $propablyPhpPdfExamplesFilePaths = [$kernelRootDir.'/../vendor/PHPPdf/examples/index.php', $kernelRootDir.'/../vendor/psliwa/php-pdf/examples/index.php'];
 
         foreach ($propablyPhpPdfExamplesFilePaths as $propablyPhpPdfExamplesFilePath) {
             if (file_exists($propablyPhpPdfExamplesFilePath)) {
