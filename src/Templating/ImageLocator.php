@@ -17,8 +17,12 @@ use Symfony\Component\HttpKernel\Kernel;
  */
 class ImageLocator implements ImageLocatorInterface
 {
+    /** @var Kernel */
     private $kernel;
     
+    /** @var string */
+    private $rootDir;
+
     public function __construct(Kernel $kernel)
     {
         $this->kernel = $kernel;
@@ -39,7 +43,7 @@ class ImageLocator implements ImageLocatorInterface
         // @see http://symfony.com/doc/current/book/page_creation.html#optional-step-3-create-the-template
         if($pos === false || $pos === 0)
         {
-            return $this->kernel->getRootDir() . '/Resources/public/images/' . ltrim($logicalImageName, ':');
+            return $this->getRootDir() . '/Resources/public/images/' . ltrim($logicalImageName, ':');
         }
 
         $bundleName = substr($logicalImageName, 0, $pos);  
@@ -49,5 +53,15 @@ class ImageLocator implements ImageLocatorInterface
         $bundlePath = $bundle->getPath();
         
         return $bundlePath.'/Resources/public/images/'.$imageName;
+    }
+
+    private function getRootDir(): string
+    {
+        if (null === $this->rootDir) {
+            $r = new \ReflectionObject($this->kernel);
+            $this->rootDir = \dirname($r->getFileName());
+        }
+
+        return $this->rootDir;
     }
 }

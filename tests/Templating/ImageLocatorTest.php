@@ -10,7 +10,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 class ImageLocatorTest extends TestCase
 {
     private $kernel;
-    private $locator;
     
     protected function setup(): void
     {
@@ -18,15 +17,13 @@ class ImageLocatorTest extends TestCase
                              ->setMethods(array('getBundle', 'registerBundles', 'registerContainerConfiguration', 'getRootDir'))
                              ->disableOriginalConstructor()
                              ->getMock();
-                             
-        $this->locator = new ImageLocator($this->kernel);
     }
     
     /**
      * @test
      * @dataProvider dataProvider
      */
-    public function getImagePathSuccessfullyWhenBundleExists($bundleName, $imageName)
+    public function getImagePathSuccessfullyWhenBundleExists($bundleName, $imageName): void
     {
         $bundle = $this->getMockBuilder(Bundle::class)
                        ->setMethods(array('getPath'))
@@ -46,22 +43,24 @@ class ImageLocatorTest extends TestCase
         $bundle->expects($this->once())
                ->method('getPath')
                ->will($this->returnValue($bundlePath));
-               
-        $this->assertEquals($expectedImagePath, $this->locator->getImagePath($imageLogicalName));
+
+        $locator = new ImageLocator($this->kernel);
+
+        $this->assertEquals($expectedImagePath, $locator->getImagePath($imageLogicalName));
     }
     
-    public function dataProvider()
+    public function dataProvider(): array
     {
-        return array(
-            array('SomeBundle', 'some-image.jpg'),
-            array('SomeBundle', 'dir/some:image.jpg'),
-        );
+        return [
+            ['SomeBundle', 'some-image.jpg'],
+            ['SomeBundle', 'dir/some:image.jpg'],
+        ];
     }
 
     /**
      * @test
      */
-    public function throwExceptionIfBundleDoesNotExist()
+    public function throwExceptionIfBundleDoesNotExist(): void
     {
         $this->kernel->expects($this->once())
                      ->method('getBundle')
@@ -69,7 +68,9 @@ class ImageLocatorTest extends TestCase
 
         $this->expectException(\InvalidArgumentException::class);
 
-        $this->locator->getImagePath('unexistedBundle:someImage.jpg');
+        $locator = new ImageLocator($this->kernel);
+
+        $locator->getImagePath('unexistedBundle:someImage.jpg');
     }
    
     /**
@@ -77,11 +78,12 @@ class ImageLocatorTest extends TestCase
      */
     public function getImagePathFromGlobalResourcesWhenBundleNameIsEmpty()
     {
-        $rootDir = 'some/root/dir';
+        $r = new \ReflectionObject($this->kernel);
+        $rootDir = \dirname($r->getFileName());
         $imageName = 'some/image/name.jpg';
         $prefixes = array('', ':', '::');
         
-        $this->kernel->expects($this->exactly(count($prefixes)))
+        $this->kernel->expects($this->atMost(1))
                      ->method('getRootDir')
                      ->will($this->returnValue($rootDir));
                      
@@ -89,10 +91,12 @@ class ImageLocatorTest extends TestCase
                      ->method('getBundle');
 
         $expectedPath = $rootDir.'/Resources/public/images/'.$imageName;
-        
+
+        $locator = new ImageLocator($this->kernel);
+
         foreach($prefixes as $prefix)
         {
-            $this->assertEquals($expectedPath, $this->locator->getImagePath($prefix.$imageName));
+            $this->assertEquals($expectedPath, $locator->getImagePath($prefix.$imageName));
         }        
     }
 }
