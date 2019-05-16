@@ -11,39 +11,38 @@ class BundleBasedStringFilterTest extends TestCase
 {
     private $filter;
     private $kernel;
-    
+
     protected function setUp(): void
     {
         $this->kernel = $this->getMockBuilder(KernelInterface::class)->getMock();
         $this->filter = new BundleBasedStringFilter($this->kernel);
     }
-    
+
     /**
      * @test
      * @dataProvider replaceBundleVariablesProvider
      */
     public function replaceBundleVariables($string, $expectedString, array $expectedBundles)
     {
-        foreach($expectedBundles as $at => $bundle)
-        {
+        foreach ($expectedBundles as $at => $bundle) {
             list($bundleName, $bundlePath) = $bundle;
-            
+
             $bundleMock = $this->getMockBuilder(BundleInterface::class)->getMock();
             $bundleMock->expects($this->once())
                        ->method('getPath')
                        ->will($this->returnValue($bundlePath));
-            
+
             $this->kernel->expects($this->at($at))
                          ->method('getBundle')
                          ->with($bundleName)
                          ->will($this->returnValue($bundleMock));
         }
-        
+
         $actualString = $this->filter->filter($string);
-        
+
         $this->assertEquals($expectedString, $actualString);
     }
-    
+
     public function replaceBundleVariablesProvider()
     {
         return array(

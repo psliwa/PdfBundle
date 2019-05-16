@@ -12,12 +12,12 @@ use PHPPdf\Cache\Cache;
 class PsPdfExtensionTest extends TestCase
 {
     private $extension;
-    
+
     protected function setUp(): void
     {
         $this->extension = new PsPdfExtension();
     }
-    
+
     /**
      * @test
      */
@@ -25,15 +25,15 @@ class PsPdfExtensionTest extends TestCase
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.cache_dir', __DIR__.'/');
-        
+
         $this->extension->load(array(), $container);
-        
+
         $this->assertTrue($container->has('ps_pdf.facade'));
         $facade = $container->get('ps_pdf.facade');
-        
+
         $this->assertInstanceOf(Facade::class, $facade);
     }
-    
+
     /**
      * @test
      */
@@ -41,15 +41,15 @@ class PsPdfExtensionTest extends TestCase
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.cache_dir', __DIR__.'/');
-        
+
         $this->extension->load(array(), $container);
-        
+
         $this->assertTrue($container->has('ps_pdf.facade_builder'));
         $builder = $container->get('ps_pdf.facade_builder');
-        
+
         $this->assertInstanceOf(FacadeBuilder::class, $builder);
     }
-    
+
     /**
      * @test
      */
@@ -57,15 +57,15 @@ class PsPdfExtensionTest extends TestCase
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.cache_dir', __DIR__.'/');
-        
+
         $this->extension->load(array(), $container);
-        
+
         $this->assertTrue($container->has('ps_pdf.cache'));
         $cache = $container->get('ps_pdf.cache');
-        
+
         $this->assertInstanceOf(Cache::class, $cache);
     }
-   
+
     /**
      * @test
      */
@@ -93,7 +93,7 @@ class PsPdfExtensionTest extends TestCase
         );
 
         $this->extension->load($config, $container);
-        
+
         $this->assertEquals($config[0]['nodes_file'], $container->getParameter('ps_pdf.nodes_file'));
         $this->assertEquals($config[0]['colors_file'], $container->getParameter('ps_pdf.colors_file'));
         $this->assertEquals($config[0]['fonts_file'], $container->getParameter('ps_pdf.fonts_file'));

@@ -14,13 +14,13 @@ class PdfTest extends TestCase
     public function testPdfAnnotationIsCorrectlyCreatedByReader()
     {
         $reader = new AnnotationReader();
-        
+
         $method = new \ReflectionMethod($this, 'testPdfAnnotationIsCorrectlyCreatedByReader');
         $pdf = $reader->getMethodAnnotation($method, Pdf::class);
-        
+
         $this->assertNotNull($pdf);
     }
-    
+
     /**
      * @test
      * @dataProvider createAnnotationProvider
@@ -28,24 +28,23 @@ class PdfTest extends TestCase
     public function createAnnotation(array $args, bool $expectedException)
     {
         $defaultArgs = [
-            'stylesheet' => null, 
-            'documentParserType' => 'xml', 
-            'headers' => [], 
-            'enableCache' => false
+            'stylesheet' => null,
+            'documentParserType' => 'xml',
+            'headers' => [],
+            'enableCache' => false,
         ];
 
-        if($expectedException)
-        {
+        if ($expectedException) {
             $this->expectException(\Exception::class);
         }
 
         $annotation = new Pdf($args);
 
         $expectedVars = $args + $defaultArgs;
-        
+
         $this->assertEquals($expectedVars, get_object_vars($annotation));
     }
-    
+
     public function createAnnotationProvider()
     {
         return [

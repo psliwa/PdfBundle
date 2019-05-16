@@ -3,7 +3,7 @@
 namespace Ps\PdfBundle\Templating;
 
 /**
- * Image locator
+ * Image locator.
  *
  * @author Piotr Sliwa <peter.pl7@gmail.com>
  */
@@ -14,7 +14,7 @@ interface ImageLocatorInterface
      *
      * @return string file path
      *
-     * @throws /InvalidArgumentException If bundle does not exist.
+     * @throws /InvalidArgumentException If bundle does not exist
      */
     public function getImagePath($logicalImageName);
 }

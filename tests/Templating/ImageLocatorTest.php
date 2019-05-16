@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 class ImageLocatorTest extends TestCase
 {
     private $kernel;
-    
+
     protected function setup(): void
     {
         $this->kernel = $this->getMockBuilder(Kernel::class)
@@ -18,7 +18,7 @@ class ImageLocatorTest extends TestCase
                              ->disableOriginalConstructor()
                              ->getMock();
     }
-    
+
     /**
      * @test
      * @dataProvider dataProvider
@@ -29,9 +29,9 @@ class ImageLocatorTest extends TestCase
                        ->setMethods(array('getPath'))
                        ->disableOriginalConstructor()
                        ->getMock();
-                       
+
         $bundlePath = 'some/bundle/path';
-        
+
         $imageLogicalName = sprintf('%s:%s', $bundleName, $imageName);
         $expectedImagePath = $bundlePath.'/Resources/public/images/'.$imageName;
 
@@ -39,7 +39,7 @@ class ImageLocatorTest extends TestCase
                      ->method('getBundle')
                      ->with($bundleName)
                      ->will($this->returnValue($bundle));
-                     
+
         $bundle->expects($this->once())
                ->method('getPath')
                ->will($this->returnValue($bundlePath));
@@ -48,7 +48,7 @@ class ImageLocatorTest extends TestCase
 
         $this->assertEquals($expectedImagePath, $locator->getImagePath($imageLogicalName));
     }
-    
+
     public function dataProvider(): array
     {
         return [
@@ -72,7 +72,7 @@ class ImageLocatorTest extends TestCase
 
         $locator->getImagePath('unexistedBundle:someImage.jpg');
     }
-   
+
     /**
      * @test
      */
@@ -82,11 +82,11 @@ class ImageLocatorTest extends TestCase
         $rootDir = \dirname($r->getFileName());
         $imageName = 'some/image/name.jpg';
         $prefixes = array('', ':', '::');
-        
+
         $this->kernel->expects($this->atMost(1))
                      ->method('getRootDir')
                      ->will($this->returnValue($rootDir));
-                     
+
         $this->kernel->expects($this->never())
                      ->method('getBundle');
 
@@ -94,9 +94,8 @@ class ImageLocatorTest extends TestCase
 
         $locator = new ImageLocator($this->kernel);
 
-        foreach($prefixes as $prefix)
-        {
+        foreach ($prefixes as $prefix) {
             $this->assertEquals($expectedPath, $locator->getImagePath($prefix.$imageName));
-        }        
+        }
     }
 }
