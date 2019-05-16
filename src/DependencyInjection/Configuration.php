@@ -12,13 +12,13 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * Configuration definition class
- * 
+ * Configuration definition class.
+ *
  * @author Piotr Śliwa <peter.pl7@gmail.com>
  */
 class Configuration implements ConfigurationInterface
 {
-	public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder('ps_pdf');
         $rootNode = \method_exists(TreeBuilder::class, 'getRootNode')
@@ -29,7 +29,7 @@ class Configuration implements ConfigurationInterface
                     ->arrayNode('cache')
                       ->children()
                         ->variableNode('options')
-                          ->defaultValue(array())
+                          ->defaultValue([])
                         ->end()
                         ->scalarNode('type')
                           ->defaultValue('File')

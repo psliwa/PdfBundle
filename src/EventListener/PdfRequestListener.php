@@ -12,7 +12,6 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 /**
  * Register a new 'pdf' format associated to mime type pdf.
- *
  */
 class PdfRequestListener
 {

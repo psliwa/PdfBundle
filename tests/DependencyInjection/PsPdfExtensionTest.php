@@ -2,22 +2,22 @@
 
 namespace Ps\PdfBundle\Tests\DependencyInjection;
 
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Ps\PdfBundle\DependencyInjection\PsPdfExtension;
+use PHPPdf\Cache\Cache;
 use PHPPdf\Core\Facade;
 use PHPPdf\Core\FacadeBuilder;
-use PHPPdf\Cache\Cache;
+use PHPUnit\Framework\TestCase;
+use Ps\PdfBundle\DependencyInjection\PsPdfExtension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class PsPdfExtensionTest extends TestCase
 {
     private $extension;
-    
+
     protected function setUp(): void
     {
         $this->extension = new PsPdfExtension();
     }
-    
+
     /**
      * @test
      */
@@ -25,15 +25,15 @@ class PsPdfExtensionTest extends TestCase
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.cache_dir', __DIR__.'/');
-        
-        $this->extension->load(array(), $container);
-        
+
+        $this->extension->load([], $container);
+
         $this->assertTrue($container->has('ps_pdf.facade'));
         $facade = $container->get('ps_pdf.facade');
-        
+
         $this->assertInstanceOf(Facade::class, $facade);
     }
-    
+
     /**
      * @test
      */
@@ -41,15 +41,15 @@ class PsPdfExtensionTest extends TestCase
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.cache_dir', __DIR__.'/');
-        
-        $this->extension->load(array(), $container);
-        
+
+        $this->extension->load([], $container);
+
         $this->assertTrue($container->has('ps_pdf.facade_builder'));
         $builder = $container->get('ps_pdf.facade_builder');
-        
+
         $this->assertInstanceOf(FacadeBuilder::class, $builder);
     }
-    
+
     /**
      * @test
      */
@@ -57,15 +57,15 @@ class PsPdfExtensionTest extends TestCase
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.cache_dir', __DIR__.'/');
-        
-        $this->extension->load(array(), $container);
-        
+
+        $this->extension->load([], $container);
+
         $this->assertTrue($container->has('ps_pdf.cache'));
         $cache = $container->get('ps_pdf.cache');
-        
+
         $this->assertInstanceOf(Cache::class, $cache);
     }
-   
+
     /**
      * @test
      */
@@ -73,27 +73,27 @@ class PsPdfExtensionTest extends TestCase
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.cache_dir', __DIR__.'/');
-        $config = array(
-            array(
+        $config = [
+            [
                 'nodes_file' => 'nodes file',
                 'fonts_file' => 'some file',
                 'complex_attributes_file' => 'some another file',
                 'colors_file' => 'colors file',
-                'cache' => array(
+                'cache' => [
                     'type' => 'some type',
-                    'options' => array(
+                    'options' => [
                         'custom_option' => 'value',
-                    ),
-                ),
+                    ],
+                ],
                 'use_cache_in_stylesheet' => true,
                 'markdown_stylesheet_filepath' => 'path1',
                 'markdown_document_template_filepath' => 'path2',
                 'document_parser_type' => 'markdown',
-            ),
-        );
+            ],
+        ];
 
         $this->extension->load($config, $container);
-        
+
         $this->assertEquals($config[0]['nodes_file'], $container->getParameter('ps_pdf.nodes_file'));
         $this->assertEquals($config[0]['colors_file'], $container->getParameter('ps_pdf.colors_file'));
         $this->assertEquals($config[0]['fonts_file'], $container->getParameter('ps_pdf.fonts_file'));
