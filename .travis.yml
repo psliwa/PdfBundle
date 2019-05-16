@@ -26,6 +26,8 @@ jobs:
     - stage: Test
       php: 7.1
       name: prefer-lowest
+      env:
+        - SYMFONY_DEPRECATIONS_HELPER=disabled
       install:
         - composer update --no-interaction --prefer-dist --prefer-stable --prefer-lowest
     - stage: Test coverage
