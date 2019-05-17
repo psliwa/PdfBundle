@@ -1,6 +1,6 @@
 {
     "name": "psliwa/pdf-bundle",
-    "description": "This bundle integrates Symfony2 with PHPPdf library.",
+    "description": "This bundle integrates Symfony 3.4/4 with PHPPdf library.",
     "keywords": ["PDF", "PHPPdf"],
     "type": "symfony-bundle",
     "license": "MIT",
@@ -11,17 +11,34 @@
             "email":    "me@psliwa.org"
         }     
     ],
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
     "require": {
-        "php": ">=5.3.0",
-        "symfony/symfony": "~2.3|~3.0",
+        "php": "^7.1",
+        "doctrine/annotations": "^1.0",
         "psliwa/php-pdf": "^1.1.5",
-        "sensio/framework-extra-bundle": ">=2.0 <4.0.0"
+        "sensio/framework-extra-bundle": "^2|^3|^4|^5",
+        "symfony/config": "^3.4|^4.0",
+        "symfony/dependency-injection": "^3.4|^4.0",
+        "symfony/event-dispatcher": "^3.4|^4.0",
+        "symfony/framework-bundle": "^3.4|^4.0",
+        "symfony/http-foundation": "^3.4|^4.0",
+        "symfony/http-kernel": "^3.4|^4.0",
+        "symfony/templating": "^3.4|^4.0",
+        "twig/twig": "^1.0|^2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": ">=4,<6.0.0"
+        "friendsofphp/php-cs-fixer": "^2.15",
+        "php-coveralls/php-coveralls": "^2.1",
+        "phpunit/phpunit": "^7.5.11|^8.0",
+        "symfony/phpunit-bridge": "^4.2"
     },
     "autoload": {
-        "psr-0": { "Ps\\PdfBundle": "" }
+        "psr-4": { "Ps\\PdfBundle\\": "src" }
     },
-    "target-dir": "Ps/PdfBundle"
+    "autoload-dev": {
+        "psr-4": { "Ps\\PdfBundle\\Tests\\": "tests" }
+    }
 }
