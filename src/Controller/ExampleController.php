@@ -63,7 +63,8 @@ class ExampleController extends Controller
     {
         $kernelRootDir = $this->container->getParameter('kernel.root_dir');
 
-        $propablyPhpPdfExamplesFilePaths = [$kernelRootDir.'/../vendor/PHPPdf/examples/index.php', $kernelRootDir.'/../vendor/psliwa/php-pdf/examples/index.php'];
+        $kernelProjectDir = $this->container->getParameter('kernel.project_dir');
+        $propablyPhpPdfExamplesFilePaths = [$kernelProjectDir.'/vendor/PHPPdf/examples/index.php', $kernelProjectDir.'/vendor/psliwa/php-pdf/examples/index.php'];
 
         foreach ($propablyPhpPdfExamplesFilePaths as $propablyPhpPdfExamplesFilePath) {
             if (file_exists($propablyPhpPdfExamplesFilePath)) {
